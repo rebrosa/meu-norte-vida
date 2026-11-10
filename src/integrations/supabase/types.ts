@@ -14,13 +14,157 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chat_messages: {
+        Row: {
+          cited_episode_ids: string[] | null
+          content: string
+          created_at: string | null
+          helpful: boolean | null
+          id: string
+          role: string | null
+          user_id: string
+        }
+        Insert: {
+          cited_episode_ids?: string[] | null
+          content: string
+          created_at?: string | null
+          helpful?: boolean | null
+          id?: string
+          role?: string | null
+          user_id?: string
+        }
+        Update: {
+          cited_episode_ids?: string[] | null
+          content?: string
+          created_at?: string | null
+          helpful?: boolean | null
+          id?: string
+          role?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      decision_letters: {
+        Row: {
+          future_goals: string | null
+          id: string
+          updated_at: string | null
+          user_id: string
+          why_text: string | null
+        }
+        Insert: {
+          future_goals?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+          why_text?: string | null
+        }
+        Update: {
+          future_goals?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+          why_text?: string | null
+        }
+        Relationships: []
+      }
+      episodes: {
+        Row: {
+          almost_did: string | null
+          created_at: string | null
+          embedding: string | null
+          how_felt: string | null
+          id: string
+          intensity: number | null
+          occurred_on: string | null
+          tags: string[] | null
+          user_id: string
+          what_happened: string
+        }
+        Insert: {
+          almost_did?: string | null
+          created_at?: string | null
+          embedding?: string | null
+          how_felt?: string | null
+          id?: string
+          intensity?: number | null
+          occurred_on?: string | null
+          tags?: string[] | null
+          user_id?: string
+          what_happened: string
+        }
+        Update: {
+          almost_did?: string | null
+          created_at?: string | null
+          embedding?: string | null
+          how_felt?: string | null
+          id?: string
+          intensity?: number | null
+          occurred_on?: string | null
+          tags?: string[] | null
+          user_id?: string
+          what_happened?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          display_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          display_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      relapse_events: {
+        Row: {
+          created_at: string | null
+          feeling: string | null
+          id: string
+          outcome: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          feeling?: string | null
+          id?: string
+          outcome?: string | null
+          user_id?: string
+        }
+        Update: {
+          created_at?: string | null
+          feeling?: string | null
+          id?: string
+          outcome?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      match_episodes: {
+        Args: { match_count?: number; query_embedding: string }
+        Returns: {
+          how_felt: string
+          id: string
+          intensity: number
+          occurred_on: string
+          similarity: number
+          what_happened: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
