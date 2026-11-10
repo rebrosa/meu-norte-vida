@@ -23,7 +23,7 @@ export const Route = createFileRoute("/_authenticated/inicio")({
 function Inicio() {
   const { user } = Route.useRouteContext();
   const { data: profile } = useSuspenseQuery(profileQuery);
-  const sepDate = (user.user_metadata?.separation_date as string | undefined) ?? null;
+  const sepDate = (user.user_metadata?.["separation_date"] as string | undefined) ?? null;
   const days = daysSince(sepDate);
   const name = profile.display_name;
 

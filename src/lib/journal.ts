@@ -97,7 +97,7 @@ export async function saveSeparationDate(iso: string | null) {
   if (error) throw error;
 }
 
-export async function saveLetter(input: { id?: string | null; why_text: string; future_goals: string }) {
+export async function saveLetter(input: { id?: string | null | undefined; why_text: string; future_goals: string }) {
   const userId = await currentUserId();
   const row = { why_text: input.why_text, future_goals: input.future_goals, updated_at: new Date().toISOString() };
   const { error } = input.id

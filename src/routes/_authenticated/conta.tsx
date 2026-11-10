@@ -38,7 +38,7 @@ function Conta() {
   const queryClient = useQueryClient();
   const { data: profile } = useSuspenseQuery(profileQuery);
   const [name, setName] = useState(profile.display_name ?? "");
-  const [sep, setSep] = useState((user.user_metadata?.separation_date as string | undefined) ?? "");
+  const [sep, setSep] = useState((user.user_metadata?.["separation_date"] as string | undefined) ?? "");
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
