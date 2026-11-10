@@ -30,7 +30,7 @@ function AuthPage() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       setLoading(false);
       if (error) return setMsg("E-mail ou senha incorretos.");
-      navigate({ to: "/acalmar" });
+      navigate({ to: "/seguranca" });
     } else {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -39,7 +39,7 @@ function AuthPage() {
       });
       setLoading(false);
       if (error) return setMsg(error.message);
-      if (data.session) navigate({ to: "/acalmar" });
+      if (data.session) navigate({ to: "/seguranca" });
       else setMsg("Enviamos um link de confirmação para o seu e-mail.");
     }
   }

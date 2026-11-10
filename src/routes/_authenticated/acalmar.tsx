@@ -1,8 +1,8 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { suggestGrounding } from "@/lib/grounding.functions";
-import { supabase } from "@/integrations/supabase/client";
+import { AppShell } from "@/components/app/AppShell";
 
 export const Route = createFileRoute("/_authenticated/acalmar")({
   head: () => ({
@@ -18,7 +18,6 @@ export const Route = createFileRoute("/_authenticated/acalmar")({
 
 function Acalmar() {
   const run = useServerFn(suggestGrounding);
-  const navigate = useNavigate();
   const [feeling, setFeeling] = useState("");
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState<string | null>(null);
@@ -40,19 +39,8 @@ function Acalmar() {
     }
   }
 
-  async function signOut() {
-    await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
-  }
-
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col gap-6 px-5 py-8">
-      <header className="flex items-center justify-between">
-        <span className="font-display text-xl text-primary">Reality Check</span>
-        <button onClick={signOut} className="min-h-12 px-3 text-sm text-muted-foreground underline">
-          Sair
-        </button>
-      </header>
+    <AppShell>
 
       <section className="space-y-2">
         <h1 className="font-display text-3xl text-foreground">Como você está agora?</h1>
@@ -91,9 +79,9 @@ function Acalmar() {
         </article>
       )}
 
-      <p className="mt-auto text-center text-sm text-muted-foreground">
-        Em perigo? Alemanha 110 · Brasil 190 · Ligue 180
-      </p>
-    </main>
+      <Link to="/ajuda" className="mx-auto mt-auto inline-flex min-h-12 items-center px-4 text-base text-muted-foreground underline">
+        Preciso de ajuda
+      </Link>
+    </AppShell>
   );
 }
