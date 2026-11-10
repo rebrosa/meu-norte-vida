@@ -11,8 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AjudaRouteImport } from './routes/ajuda'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAcalmarRouteImport } from './routes/_authenticated/acalmar'
+import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
+import { Route as AuthenticatedDecisaoRouteImport } from './routes/_authenticated/decisao'
+import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
+import { Route as AuthenticatedSegurancaRouteImport } from './routes/_authenticated/seguranca'
+import { Route as AuthenticatedVoltarRouteImport } from './routes/_authenticated/voltar'
+import { Route as AuthenticatedEpisodiosIndexRouteImport } from './routes/_authenticated/episodios.index'
+import { Route as AuthenticatedEpisodiosNovoRouteImport } from './routes/_authenticated/episodios.novo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -21,6 +29,11 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AjudaRoute = AjudaRouteImport.update({
+  id: '/ajuda',
+  path: '/ajuda',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -33,35 +46,132 @@ const AuthenticatedAcalmarRoute = AuthenticatedAcalmarRouteImport.update({
   path: '/acalmar',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedContaRoute = AuthenticatedContaRouteImport.update({
+  id: '/conta',
+  path: '/conta',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDecisaoRoute = AuthenticatedDecisaoRouteImport.update({
+  id: '/decisao',
+  path: '/decisao',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedInicioRoute = AuthenticatedInicioRouteImport.update({
+  id: '/inicio',
+  path: '/inicio',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSegurancaRoute = AuthenticatedSegurancaRouteImport.update({
+  id: '/seguranca',
+  path: '/seguranca',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedVoltarRoute = AuthenticatedVoltarRouteImport.update({
+  id: '/voltar',
+  path: '/voltar',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEpisodiosIndexRoute =
+  AuthenticatedEpisodiosIndexRouteImport.update({
+    id: '/episodios/',
+    path: '/episodios/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEpisodiosNovoRoute =
+  AuthenticatedEpisodiosNovoRouteImport.update({
+    id: '/episodios/novo',
+    path: '/episodios/novo',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ajuda': typeof AjudaRoute
   '/auth': typeof AuthRoute
   '/acalmar': typeof AuthenticatedAcalmarRoute
+  '/conta': typeof AuthenticatedContaRoute
+  '/decisao': typeof AuthenticatedDecisaoRoute
+  '/inicio': typeof AuthenticatedInicioRoute
+  '/seguranca': typeof AuthenticatedSegurancaRoute
+  '/voltar': typeof AuthenticatedVoltarRoute
+  '/episodios/novo': typeof AuthenticatedEpisodiosNovoRoute
+  '/episodios/': typeof AuthenticatedEpisodiosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ajuda': typeof AjudaRoute
   '/auth': typeof AuthRoute
   '/acalmar': typeof AuthenticatedAcalmarRoute
+  '/conta': typeof AuthenticatedContaRoute
+  '/decisao': typeof AuthenticatedDecisaoRoute
+  '/inicio': typeof AuthenticatedInicioRoute
+  '/seguranca': typeof AuthenticatedSegurancaRoute
+  '/voltar': typeof AuthenticatedVoltarRoute
+  '/episodios/novo': typeof AuthenticatedEpisodiosNovoRoute
+  '/episodios': typeof AuthenticatedEpisodiosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/ajuda': typeof AjudaRoute
   '/auth': typeof AuthRoute
   '/_authenticated/acalmar': typeof AuthenticatedAcalmarRoute
+  '/_authenticated/conta': typeof AuthenticatedContaRoute
+  '/_authenticated/decisao': typeof AuthenticatedDecisaoRoute
+  '/_authenticated/inicio': typeof AuthenticatedInicioRoute
+  '/_authenticated/seguranca': typeof AuthenticatedSegurancaRoute
+  '/_authenticated/voltar': typeof AuthenticatedVoltarRoute
+  '/_authenticated/episodios/novo': typeof AuthenticatedEpisodiosNovoRoute
+  '/_authenticated/episodios/': typeof AuthenticatedEpisodiosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/acalmar'
+  fullPaths:
+    | '/'
+    | '/ajuda'
+    | '/auth'
+    | '/acalmar'
+    | '/conta'
+    | '/decisao'
+    | '/inicio'
+    | '/seguranca'
+    | '/voltar'
+    | '/episodios/novo'
+    | '/episodios/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/acalmar'
-  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/acalmar'
+  to:
+    | '/'
+    | '/ajuda'
+    | '/auth'
+    | '/acalmar'
+    | '/conta'
+    | '/decisao'
+    | '/inicio'
+    | '/seguranca'
+    | '/voltar'
+    | '/episodios/novo'
+    | '/episodios'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/ajuda'
+    | '/auth'
+    | '/_authenticated/acalmar'
+    | '/_authenticated/conta'
+    | '/_authenticated/decisao'
+    | '/_authenticated/inicio'
+    | '/_authenticated/seguranca'
+    | '/_authenticated/voltar'
+    | '/_authenticated/episodios/novo'
+    | '/_authenticated/episodios/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AjudaRoute: typeof AjudaRoute
   AuthRoute: typeof AuthRoute
 }
 
@@ -81,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ajuda': {
+      id: '/ajuda'
+      path: '/ajuda'
+      fullPath: '/ajuda'
+      preLoaderRoute: typeof AjudaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -95,15 +212,78 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAcalmarRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/conta': {
+      id: '/_authenticated/conta'
+      path: '/conta'
+      fullPath: '/conta'
+      preLoaderRoute: typeof AuthenticatedContaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/decisao': {
+      id: '/_authenticated/decisao'
+      path: '/decisao'
+      fullPath: '/decisao'
+      preLoaderRoute: typeof AuthenticatedDecisaoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inicio': {
+      id: '/_authenticated/inicio'
+      path: '/inicio'
+      fullPath: '/inicio'
+      preLoaderRoute: typeof AuthenticatedInicioRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/seguranca': {
+      id: '/_authenticated/seguranca'
+      path: '/seguranca'
+      fullPath: '/seguranca'
+      preLoaderRoute: typeof AuthenticatedSegurancaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/voltar': {
+      id: '/_authenticated/voltar'
+      path: '/voltar'
+      fullPath: '/voltar'
+      preLoaderRoute: typeof AuthenticatedVoltarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/episodios/': {
+      id: '/_authenticated/episodios/'
+      path: '/episodios'
+      fullPath: '/episodios/'
+      preLoaderRoute: typeof AuthenticatedEpisodiosIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/episodios/novo': {
+      id: '/_authenticated/episodios/novo'
+      path: '/episodios/novo'
+      fullPath: '/episodios/novo'
+      preLoaderRoute: typeof AuthenticatedEpisodiosNovoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAcalmarRoute: typeof AuthenticatedAcalmarRoute
+  AuthenticatedContaRoute: typeof AuthenticatedContaRoute
+  AuthenticatedDecisaoRoute: typeof AuthenticatedDecisaoRoute
+  AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
+  AuthenticatedSegurancaRoute: typeof AuthenticatedSegurancaRoute
+  AuthenticatedVoltarRoute: typeof AuthenticatedVoltarRoute
+  AuthenticatedEpisodiosNovoRoute: typeof AuthenticatedEpisodiosNovoRoute
+  AuthenticatedEpisodiosIndexRoute: typeof AuthenticatedEpisodiosIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAcalmarRoute: AuthenticatedAcalmarRoute,
+  AuthenticatedContaRoute: AuthenticatedContaRoute,
+  AuthenticatedDecisaoRoute: AuthenticatedDecisaoRoute,
+  AuthenticatedInicioRoute: AuthenticatedInicioRoute,
+  AuthenticatedSegurancaRoute: AuthenticatedSegurancaRoute,
+  AuthenticatedVoltarRoute: AuthenticatedVoltarRoute,
+  AuthenticatedEpisodiosNovoRoute: AuthenticatedEpisodiosNovoRoute,
+  AuthenticatedEpisodiosIndexRoute: AuthenticatedEpisodiosIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -112,6 +292,7 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AjudaRoute: AjudaRoute,
   AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport

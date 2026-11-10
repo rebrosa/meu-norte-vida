@@ -8,3 +8,8 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Project rules
+- App data is read/written from the browser with the publishable-key client only, scoped by the existing per-user RLS policies; never use the service-role key or change the schema without the owner's approval (owner's security requirement).
+- Data that has no column in the fixed schema (e.g. the separation date) is kept in the user's own auth `user_metadata`, so it follows the account and is never shared.
+- Signed-in pages wrap their content in `AppShell` (bottom tab bar); focused flows (safety check, urge flow) render without it.
