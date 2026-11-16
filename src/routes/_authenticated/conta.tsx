@@ -1,6 +1,7 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
+import { Lock } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell, fieldClass, primaryBtn, secondaryBtn } from "@/components/app/AppShell";
 import {
@@ -123,6 +124,15 @@ function Conta() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <footer className="mt-8 flex gap-3 rounded-2xl bg-card p-4 ring-1 ring-border">
+        <Lock className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
+        <p className="text-base leading-relaxed text-muted-foreground">
+          <span className="font-semibold text-foreground">Suas informações são confidenciais.</span>{" "}
+          O que você escreve aqui é só seu: seus registros, sua carta e suas pausas ficam guardados no seu nome e
+          ninguém mais consegue ler. Você está segura.
+        </p>
+      </footer>
     </AppShell>
   );
 }
