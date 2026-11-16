@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { primaryBtn, secondaryBtn } from "@/components/app/AppShell";
 import { IntensityDots } from "@/components/app/IntensityDots";
-import { formatCountdown, formatDateBR, PAUSE_MINUTES } from "@/lib/dates";
+import { formatDateBR, PAUSE_MINUTES } from "@/lib/dates";
+import { PauseTimer } from "@/components/app/PauseTimer";
+import { Button } from "@/components/ui/button";
 import { createRelapseEvent, FEELINGS, letterQuery, setRelapseOutcome, topEpisodesQuery, type Feeling } from "@/lib/journal";
 
 export const Route = createFileRoute("/_authenticated/voltar")({
@@ -14,6 +16,8 @@ export const Route = createFileRoute("/_authenticated/voltar")({
       { name: "description", content: "Um momento para respirar." },
       { property: "og:title", content: "Pausa — Reality Check" },
       { property: "og:description", content: "Um momento para respirar." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Voltar,
@@ -64,7 +68,7 @@ function StepBreathe({ onDone }: { onDone: (id: string | null) => void }) {
     <section className="flex flex-1 flex-col gap-6">
       <div className="space-y-3">
         <h1 className="font-display text-4xl leading-tight text-foreground">Respire. Você não precisa decidir agora.</h1>
-        <p className="text-lg text-muted-foreground">Inspire devagar contando até 4. Solte o ar contando até 6. Faça isso três vezes.</p>
+        <p className="text-lg text-muted-foreground">Se for confortável, respire no seu ritmo, sem forçar. Você pode manter os olhos abertos e observar três objetos ao redor. Tudo bem parar.</p>
       </div>
       <div className="mx-auto h-32 w-32 animate-pulse rounded-full bg-secondary" aria-hidden />
       <fieldset className="space-y-3">
@@ -98,6 +102,8 @@ function StepRemember({ onNext }: { onNext: () => void }) {
   return (
     <section className="flex flex-1 flex-col gap-6">
       <h1 className="font-display text-3xl text-foreground">Lembre do que você escreveu</h1>
+      <p className="text-base text-muted-foreground">Seus registros não estão sendo julgados. Releia apenas se isso fizer bem agora; você pode seguir direto para a pausa.</p>
+      <Button variant="outline" className="min-h-12 whitespace-normal text-base" onClick={onNext}>Prefiro ir direto para a pausa</Button>
 
       {letter.isPending ? (
         <p className="text-muted-foreground">Carregando…</p>
@@ -145,30 +151,16 @@ function StepRemember({ onNext }: { onNext: () => void }) {
         )}
       </div>
 
-      <button onClick={onNext} className={`${primaryBtn} mt-auto`}>
+      <Button onClick={onNext} className={`${primaryBtn} mt-auto h-auto whitespace-normal`}>
         Fazer uma pausa de {PAUSE_MINUTES} minutos
-      </button>
+      </Button>
     </section>
   );
 }
 
 function StepPause({ eventId }: { eventId: string | null }) {
   const navigate = useNavigate();
-  const total = PAUSE_MINUTES * 60;
-  const [endsAt, setEndsAt] = useState<number | null>(null);
-  const [remaining, setRemaining] = useState(total);
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (!endsAt) return;
-    const tick = () => setRemaining(Math.max(0, (endsAt - Date.now()) / 1000));
-    tick();
-    const t = setInterval(tick, 500);
-    return () => clearInterval(t);
-  }, [endsAt]);
-
-  const finished = endsAt !== null && remaining <= 0;
-  const progress = 1 - remaining / total;
 
   async function finish(outcome: "manteve_decisao" | "em_duvida") {
     setSaving(true);
@@ -186,21 +178,10 @@ function StepPause({ eventId }: { eventId: string | null }) {
       <div className="space-y-2">
         <h1 className="font-display text-3xl text-foreground">Dê a si mesma {PAUSE_MINUTES} minutos</h1>
         <p className="text-lg text-muted-foreground">
-          Não mande mensagem, não ligue. Só espere. A vontade costuma diminuir com o tempo.
+          Se puder, deixe mensagens e decisões para depois. Escolha um pequeno cuidado para este momento. Você pode encerrar a pausa quando quiser.
         </p>
       </div>
-      <div className="flex flex-col items-center gap-4 rounded-3xl bg-secondary p-8">
-        <p className="font-display text-7xl tabular-nums text-primary" aria-live="polite">{formatCountdown(remaining)}</p>
-        <div className="h-3 w-full overflow-hidden rounded-full bg-muted" aria-hidden>
-          <div className="h-full bg-primary transition-[width]" style={{ width: `${progress * 100}%` }} />
-        </div>
-        {endsAt === null && (
-          <button onClick={() => setEndsAt(Date.now() + total * 1000)} className={primaryBtn}>
-            Começar pausa
-          </button>
-        )}
-        {finished && <p className="text-center text-lg text-secondary-foreground">Pronto. Você esperou. Como está agora?</p>}
-      </div>
+      <PauseTimer />
       <div className="mt-auto space-y-3">
         <button disabled={saving} onClick={() => finish("manteve_decisao")} className={primaryBtn}>
           Estou mais calma, mantenho minha decisão

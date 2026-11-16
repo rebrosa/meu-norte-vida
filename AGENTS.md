@@ -14,3 +14,4 @@
 - Data that has no column in the fixed schema (e.g. the separation date) is kept in the user's own auth `user_metadata`, so it follows the account and is never shared.
 - Signed-in pages wrap their content in `AppShell` (bottom tab bar); focused flows (safety check, urge flow) render without it.
 - Record reflection is opt-in, local component state only, and never edits or transmits journal entries; this preserves the fixed schema and the person's original words.
+- The pause clock starts on entering its step and calculates remaining time from a wall-clock deadline, including tab focus/visibility changes, to avoid background timer drift.
