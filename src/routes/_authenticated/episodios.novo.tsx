@@ -13,6 +13,8 @@ export const Route = createFileRoute("/_authenticated/episodios/novo")({
       { name: "description", content: "Anote o que aconteceu." },
       { property: "og:title", content: "Novo registro — Reality Check" },
       { property: "og:description", content: "Anote o que aconteceu." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: NovoEpisodio,
@@ -61,6 +63,7 @@ function NovoEpisodio() {
   return (
     <AppShell>
       <h1 className="font-display text-3xl text-foreground">Novo registro</h1>
+      <p className="text-base text-muted-foreground">Escreva apenas o que se sentir confortável em compartilhar consigo mesma. Não há resposta certa ou errada. Você pode parar a qualquer momento, sem reviver os detalhes.</p>
       <form onSubmit={submit} className="space-y-6">
         <Field label="Data" htmlFor="date">
           <input id="date" type="date" max={todayISO()} value={date} onChange={(e) => setDate(e.target.value)} className={`${fieldClass} min-h-12`} />
@@ -77,6 +80,7 @@ function NovoEpisodio() {
 
         <fieldset className="space-y-3">
           <legend className="text-lg font-semibold text-foreground">Intensidade</legend>
+          <p className="text-base text-muted-foreground">Como você sentiu esse momento, não uma avaliação do que aconteceu. É opcional.</p>
           <div className="flex justify-between gap-2">
             {[1, 2, 3, 4, 5].map((n) => (
               <button
