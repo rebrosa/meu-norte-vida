@@ -9,7 +9,7 @@ Formato:
 - Título do exercício.
 - 3 a 6 passos numerados, simples e concretos (use os sentidos, a respiração ou o corpo).
 - Uma frase final gentil.
-Se a pessoa mencionar perigo imediato ou vontade de se machucar, comece dizendo para ligar 110 (Alemanha) ou 190 (Brasil), ou TelefonSeelsorge 0800 111 0 111 / Ligue 180.
+Se a pessoa mencionar perigo imediato ou vontade de se machucar, comece dizendo para ligar 190 (Polícia Militar) ou Ligue 180 (Central de Atendimento à Mulher).
 Não use markdown pesado; apenas texto simples com quebras de linha.`;
 
 export const suggestGrounding = createServerFn({ method: "POST" })

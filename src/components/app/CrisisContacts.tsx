@@ -1,13 +1,5 @@
 const GROUPS = [
   {
-    country: "Alemanha",
-    items: [
-      { label: "Polícia", number: "110" },
-      { label: "Linha de apoio para mulheres (24h, vários idiomas)", number: "116 016" },
-      { label: "TelefonSeelsorge (24h, gratuito)", number: "0800 111 0 111" },
-    ],
-  },
-  {
     country: "Brasil",
     items: [
       { label: "Polícia Militar", number: "190" },
