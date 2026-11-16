@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell, primaryBtn } from "@/components/app/AppShell";
 import { IntensityDots } from "@/components/app/IntensityDots";
+import { RecordCare } from "@/components/app/RecordCare";
 import { formatDateBR } from "@/lib/dates";
 import { episodesQuery } from "@/lib/journal";
 
@@ -12,6 +13,8 @@ export const Route = createFileRoute("/_authenticated/episodios/")({
       { name: "description", content: "Seus registros pessoais." },
       { property: "og:title", content: "Registros — Reality Check" },
       { property: "og:description", content: "Seus registros pessoais." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(episodesQuery),
@@ -48,6 +51,7 @@ function Episodios() {
                   ))}
                 </ul>
               )}
+              <RecordCare />
             </li>
           ))}
         </ul>
