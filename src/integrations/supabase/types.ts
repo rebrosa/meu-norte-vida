@@ -44,6 +44,216 @@ export type Database = {
         }
         Relationships: []
       }
+      community_audit: {
+        Row: {
+          action: string
+          actor_id: string
+          created_at: string
+          id: number
+          report_id: string | null
+          story_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          created_at?: string
+          id?: never
+          report_id?: string | null
+          story_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          created_at?: string
+          id?: never
+          report_id?: string | null
+          story_id?: string | null
+        }
+        Relationships: []
+      }
+      community_published: {
+        Row: {
+          body: string
+          content_warnings: string[]
+          pseudonym: string
+          published_at: string
+          story_id: string
+          theme: string
+          title: string
+        }
+        Insert: {
+          body: string
+          content_warnings?: string[]
+          pseudonym: string
+          published_at?: string
+          story_id: string
+          theme: string
+          title: string
+        }
+        Update: {
+          body?: string
+          content_warnings?: string[]
+          pseudonym?: string
+          published_at?: string
+          story_id?: string
+          theme?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_published_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: true
+            referencedRelation: "community_stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      community_reactions: {
+        Row: {
+          created_at: string
+          kind: string
+          story_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          kind: string
+          story_id: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          kind?: string
+          story_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_reactions_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "community_stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      community_reports: {
+        Row: {
+          created_at: string
+          details: string | null
+          id: string
+          reason: string
+          reporter_id: string
+          resolution_note: string | null
+          reviewed_at: string | null
+          status: string
+          story_id: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason: string
+          reporter_id?: string
+          resolution_note?: string | null
+          reviewed_at?: string | null
+          status?: string
+          story_id: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason?: string
+          reporter_id?: string
+          resolution_note?: string | null
+          reviewed_at?: string | null
+          status?: string
+          story_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_reports_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "community_stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      community_roles: {
+        Row: {
+          created_at: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      community_stories: {
+        Row: {
+          author_id: string
+          body: string
+          consent_at: string | null
+          content_warnings: string[]
+          created_at: string
+          id: string
+          moderator_note: string | null
+          pseudonym: string
+          published_at: string | null
+          rules_version: string | null
+          status: string
+          submitted_at: string | null
+          theme: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id?: string
+          body: string
+          consent_at?: string | null
+          content_warnings?: string[]
+          created_at?: string
+          id?: string
+          moderator_note?: string | null
+          pseudonym: string
+          published_at?: string | null
+          rules_version?: string | null
+          status?: string
+          submitted_at?: string | null
+          theme: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          consent_at?: string | null
+          content_warnings?: string[]
+          created_at?: string
+          id?: string
+          moderator_note?: string | null
+          pseudonym?: string
+          published_at?: string | null
+          rules_version?: string | null
+          status?: string
+          submitted_at?: string | null
+          theme?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       decision_letters: {
         Row: {
           future_goals: string | null
@@ -154,6 +364,60 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _community_validate: {
+        Args: {
+          p_body: string
+          p_pseudonym: string
+          p_theme: string
+          p_title: string
+          p_warnings: string[]
+        }
+        Returns: undefined
+      }
+      community_delete_draft: { Args: { p_id: string }; Returns: undefined }
+      community_enabled: { Args: { _uid: string }; Returns: boolean }
+      community_moderate: {
+        Args: { p_action: string; p_id: string; p_note: string }
+        Returns: undefined
+      }
+      community_report: {
+        Args: { p_details: string; p_reason: string; p_story: string }
+        Returns: undefined
+      }
+      community_review_report: {
+        Args: { p_note: string; p_report: string }
+        Returns: undefined
+      }
+      community_save_story: {
+        Args: {
+          p_body: string
+          p_id: string
+          p_pseudonym: string
+          p_theme: string
+          p_title: string
+          p_warnings: string[]
+        }
+        Returns: string
+      }
+      community_submit_story: {
+        Args: {
+          p_accept_display: boolean
+          p_accept_moderation: boolean
+          p_accept_rules: boolean
+          p_id: string
+          p_rules_version: string
+        }
+        Returns: undefined
+      }
+      community_toggle_reaction: {
+        Args: { p_kind: string; p_story: string }
+        Returns: boolean
+      }
+      community_withdraw_story: { Args: { p_id: string }; Returns: undefined }
+      has_community_role: {
+        Args: { _role: string; _uid: string }
+        Returns: boolean
+      }
       match_episodes: {
         Args: { match_count?: number; query_embedding: string }
         Returns: {
