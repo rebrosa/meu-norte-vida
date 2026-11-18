@@ -19,8 +19,14 @@ import { Route as AuthenticatedDecisaoRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedSegurancaRouteImport } from './routes/_authenticated/seguranca'
 import { Route as AuthenticatedVoltarRouteImport } from './routes/_authenticated/voltar'
+import { Route as AuthenticatedComunidadeIndexRouteImport } from './routes/_authenticated/comunidade.index'
+import { Route as AuthenticatedComunidadeEscreverRouteImport } from './routes/_authenticated/comunidade.escrever'
+import { Route as AuthenticatedComunidadeMeusRouteImport } from './routes/_authenticated/comunidade.meus'
+import { Route as AuthenticatedComunidadeModeracaoRouteImport } from './routes/_authenticated/comunidade.moderacao'
+import { Route as AuthenticatedComunidadeMuralRouteImport } from './routes/_authenticated/comunidade.mural'
 import { Route as AuthenticatedEpisodiosIndexRouteImport } from './routes/_authenticated/episodios.index'
 import { Route as AuthenticatedEpisodiosNovoRouteImport } from './routes/_authenticated/episodios.novo'
+import { Route as AuthenticatedComunidadeRelatoIdRouteImport } from './routes/_authenticated/comunidade.relato.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -71,6 +77,36 @@ const AuthenticatedVoltarRoute = AuthenticatedVoltarRouteImport.update({
   path: '/voltar',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedComunidadeIndexRoute =
+  AuthenticatedComunidadeIndexRouteImport.update({
+    id: '/comunidade/',
+    path: '/comunidade/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedComunidadeEscreverRoute =
+  AuthenticatedComunidadeEscreverRouteImport.update({
+    id: '/comunidade/escrever',
+    path: '/comunidade/escrever',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedComunidadeMeusRoute =
+  AuthenticatedComunidadeMeusRouteImport.update({
+    id: '/comunidade/meus',
+    path: '/comunidade/meus',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedComunidadeModeracaoRoute =
+  AuthenticatedComunidadeModeracaoRouteImport.update({
+    id: '/comunidade/moderacao',
+    path: '/comunidade/moderacao',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedComunidadeMuralRoute =
+  AuthenticatedComunidadeMuralRouteImport.update({
+    id: '/comunidade/mural',
+    path: '/comunidade/mural',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedEpisodiosIndexRoute =
   AuthenticatedEpisodiosIndexRouteImport.update({
     id: '/episodios/',
@@ -81,6 +117,12 @@ const AuthenticatedEpisodiosNovoRoute =
   AuthenticatedEpisodiosNovoRouteImport.update({
     id: '/episodios/novo',
     path: '/episodios/novo',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedComunidadeRelatoIdRoute =
+  AuthenticatedComunidadeRelatoIdRouteImport.update({
+    id: '/comunidade/relato/$id',
+    path: '/comunidade/relato/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -94,8 +136,14 @@ export interface FileRoutesByFullPath {
   '/inicio': typeof AuthenticatedInicioRoute
   '/seguranca': typeof AuthenticatedSegurancaRoute
   '/voltar': typeof AuthenticatedVoltarRoute
+  '/comunidade/escrever': typeof AuthenticatedComunidadeEscreverRoute
+  '/comunidade/meus': typeof AuthenticatedComunidadeMeusRoute
+  '/comunidade/moderacao': typeof AuthenticatedComunidadeModeracaoRoute
+  '/comunidade/mural': typeof AuthenticatedComunidadeMuralRoute
   '/episodios/novo': typeof AuthenticatedEpisodiosNovoRoute
+  '/comunidade/': typeof AuthenticatedComunidadeIndexRoute
   '/episodios/': typeof AuthenticatedEpisodiosIndexRoute
+  '/comunidade/relato/$id': typeof AuthenticatedComunidadeRelatoIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -107,8 +155,14 @@ export interface FileRoutesByTo {
   '/inicio': typeof AuthenticatedInicioRoute
   '/seguranca': typeof AuthenticatedSegurancaRoute
   '/voltar': typeof AuthenticatedVoltarRoute
+  '/comunidade/escrever': typeof AuthenticatedComunidadeEscreverRoute
+  '/comunidade/meus': typeof AuthenticatedComunidadeMeusRoute
+  '/comunidade/moderacao': typeof AuthenticatedComunidadeModeracaoRoute
+  '/comunidade/mural': typeof AuthenticatedComunidadeMuralRoute
   '/episodios/novo': typeof AuthenticatedEpisodiosNovoRoute
+  '/comunidade': typeof AuthenticatedComunidadeIndexRoute
   '/episodios': typeof AuthenticatedEpisodiosIndexRoute
+  '/comunidade/relato/$id': typeof AuthenticatedComunidadeRelatoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -122,8 +176,14 @@ export interface FileRoutesById {
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/seguranca': typeof AuthenticatedSegurancaRoute
   '/_authenticated/voltar': typeof AuthenticatedVoltarRoute
+  '/_authenticated/comunidade/escrever': typeof AuthenticatedComunidadeEscreverRoute
+  '/_authenticated/comunidade/meus': typeof AuthenticatedComunidadeMeusRoute
+  '/_authenticated/comunidade/moderacao': typeof AuthenticatedComunidadeModeracaoRoute
+  '/_authenticated/comunidade/mural': typeof AuthenticatedComunidadeMuralRoute
   '/_authenticated/episodios/novo': typeof AuthenticatedEpisodiosNovoRoute
+  '/_authenticated/comunidade/': typeof AuthenticatedComunidadeIndexRoute
   '/_authenticated/episodios/': typeof AuthenticatedEpisodiosIndexRoute
+  '/_authenticated/comunidade/relato/$id': typeof AuthenticatedComunidadeRelatoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -137,8 +197,14 @@ export interface FileRouteTypes {
     | '/inicio'
     | '/seguranca'
     | '/voltar'
+    | '/comunidade/escrever'
+    | '/comunidade/meus'
+    | '/comunidade/moderacao'
+    | '/comunidade/mural'
     | '/episodios/novo'
+    | '/comunidade/'
     | '/episodios/'
+    | '/comunidade/relato/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -150,8 +216,14 @@ export interface FileRouteTypes {
     | '/inicio'
     | '/seguranca'
     | '/voltar'
+    | '/comunidade/escrever'
+    | '/comunidade/meus'
+    | '/comunidade/moderacao'
+    | '/comunidade/mural'
     | '/episodios/novo'
+    | '/comunidade'
     | '/episodios'
+    | '/comunidade/relato/$id'
   id:
     | '__root__'
     | '/'
@@ -164,8 +236,14 @@ export interface FileRouteTypes {
     | '/_authenticated/inicio'
     | '/_authenticated/seguranca'
     | '/_authenticated/voltar'
+    | '/_authenticated/comunidade/escrever'
+    | '/_authenticated/comunidade/meus'
+    | '/_authenticated/comunidade/moderacao'
+    | '/_authenticated/comunidade/mural'
     | '/_authenticated/episodios/novo'
+    | '/_authenticated/comunidade/'
     | '/_authenticated/episodios/'
+    | '/_authenticated/comunidade/relato/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -247,6 +325,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVoltarRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/comunidade/': {
+      id: '/_authenticated/comunidade/'
+      path: '/comunidade'
+      fullPath: '/comunidade/'
+      preLoaderRoute: typeof AuthenticatedComunidadeIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/comunidade/escrever': {
+      id: '/_authenticated/comunidade/escrever'
+      path: '/comunidade/escrever'
+      fullPath: '/comunidade/escrever'
+      preLoaderRoute: typeof AuthenticatedComunidadeEscreverRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/comunidade/meus': {
+      id: '/_authenticated/comunidade/meus'
+      path: '/comunidade/meus'
+      fullPath: '/comunidade/meus'
+      preLoaderRoute: typeof AuthenticatedComunidadeMeusRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/comunidade/moderacao': {
+      id: '/_authenticated/comunidade/moderacao'
+      path: '/comunidade/moderacao'
+      fullPath: '/comunidade/moderacao'
+      preLoaderRoute: typeof AuthenticatedComunidadeModeracaoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/comunidade/mural': {
+      id: '/_authenticated/comunidade/mural'
+      path: '/comunidade/mural'
+      fullPath: '/comunidade/mural'
+      preLoaderRoute: typeof AuthenticatedComunidadeMuralRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/episodios/': {
       id: '/_authenticated/episodios/'
       path: '/episodios'
@@ -261,6 +374,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEpisodiosNovoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/comunidade/relato/$id': {
+      id: '/_authenticated/comunidade/relato/$id'
+      path: '/comunidade/relato/$id'
+      fullPath: '/comunidade/relato/$id'
+      preLoaderRoute: typeof AuthenticatedComunidadeRelatoIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -271,8 +391,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
   AuthenticatedSegurancaRoute: typeof AuthenticatedSegurancaRoute
   AuthenticatedVoltarRoute: typeof AuthenticatedVoltarRoute
+  AuthenticatedComunidadeEscreverRoute: typeof AuthenticatedComunidadeEscreverRoute
+  AuthenticatedComunidadeMeusRoute: typeof AuthenticatedComunidadeMeusRoute
+  AuthenticatedComunidadeModeracaoRoute: typeof AuthenticatedComunidadeModeracaoRoute
+  AuthenticatedComunidadeMuralRoute: typeof AuthenticatedComunidadeMuralRoute
   AuthenticatedEpisodiosNovoRoute: typeof AuthenticatedEpisodiosNovoRoute
+  AuthenticatedComunidadeIndexRoute: typeof AuthenticatedComunidadeIndexRoute
   AuthenticatedEpisodiosIndexRoute: typeof AuthenticatedEpisodiosIndexRoute
+  AuthenticatedComunidadeRelatoIdRoute: typeof AuthenticatedComunidadeRelatoIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -282,8 +408,14 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInicioRoute: AuthenticatedInicioRoute,
   AuthenticatedSegurancaRoute: AuthenticatedSegurancaRoute,
   AuthenticatedVoltarRoute: AuthenticatedVoltarRoute,
+  AuthenticatedComunidadeEscreverRoute: AuthenticatedComunidadeEscreverRoute,
+  AuthenticatedComunidadeMeusRoute: AuthenticatedComunidadeMeusRoute,
+  AuthenticatedComunidadeModeracaoRoute: AuthenticatedComunidadeModeracaoRoute,
+  AuthenticatedComunidadeMuralRoute: AuthenticatedComunidadeMuralRoute,
   AuthenticatedEpisodiosNovoRoute: AuthenticatedEpisodiosNovoRoute,
+  AuthenticatedComunidadeIndexRoute: AuthenticatedComunidadeIndexRoute,
   AuthenticatedEpisodiosIndexRoute: AuthenticatedEpisodiosIndexRoute,
+  AuthenticatedComunidadeRelatoIdRoute: AuthenticatedComunidadeRelatoIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

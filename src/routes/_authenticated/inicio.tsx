@@ -61,6 +61,10 @@ function Inicio() {
         </Link>
       </div>
 
+      <Link to="/comunidade" className="flex min-h-16 items-center justify-center rounded-3xl bg-card px-5 text-lg font-semibold text-foreground ring-1 ring-border">
+        Comunidade
+      </Link>
+
       <Link to="/ajuda" className="mx-auto inline-flex min-h-12 items-center px-4 text-base text-muted-foreground underline">
         Preciso de ajuda
       </Link>
