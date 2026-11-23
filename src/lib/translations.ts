@@ -12,7 +12,7 @@ export const translations: Record<string, Partial<Record<"pt-BR" | "en" | "de", 
     "en": "Get started",
     "de": "Beginnen"
   },
-  "Entrar": {
+  "Enttrar": {
     "en": "Sign in",
     "de": "Anmelden"
   },
