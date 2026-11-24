@@ -39,7 +39,9 @@ function Conta() {
   const queryClient = useQueryClient();
   const { data: profile } = useSuspenseQuery(profileQuery);
   const [name, setName] = useState(profile.display_name ?? "");
-  const [sep, setSep] = useState((user.user_metadata?.["separation_date"] as string | undefined) ?? "");
+  const [sep, setSep] = useState(
+    (user.user_metadata?.["separation_date"] as string | undefined) ?? "",
+  );
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -83,18 +85,39 @@ function Conta() {
       <h1 className="font-display text-3xl text-foreground">Conta</h1>
       <form onSubmit={save} className="space-y-5">
         <div className="space-y-2">
-          <label htmlFor="name" className="block text-lg font-semibold text-foreground">Como prefere ser chamada?</label>
-          <input id="name" maxLength={60} value={name} onChange={(e) => setName(e.target.value)} className={`${fieldClass} min-h-12`} />
+          <label htmlFor="name" className="block text-lg font-semibold text-foreground">
+            Como prefere ser chamada?
+          </label>
+          <input
+            id="name"
+            maxLength={60}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className={`${fieldClass} min-h-12`}
+          />
         </div>
         <div className="space-y-2">
-          <label htmlFor="sep" className="block text-lg font-semibold text-foreground">Quando você se afastou?</label>
-          <input id="sep" type="date" max={todayISO()} value={sep} onChange={(e) => setSep(e.target.value)} className={`${fieldClass} min-h-12`} />
+          <label htmlFor="sep" className="block text-lg font-semibold text-foreground">
+            Quando você se afastou?
+          </label>
+          <input
+            id="sep"
+            type="date"
+            max={todayISO()}
+            value={sep}
+            onChange={(e) => setSep(e.target.value)}
+            className={`${fieldClass} min-h-12`}
+          />
         </div>
-        <button disabled={saving} className={primaryBtn}>{saving ? "Salvando…" : "Salvar"}</button>
+        <button disabled={saving} className={primaryBtn}>
+          {saving ? "Salvando…" : "Salvar"}
+        </button>
       </form>
 
       <p className="text-base text-muted-foreground">Conectada como {user.email}</p>
-      <button onClick={signOut} className={secondaryBtn}>Sair</button>
+      <button onClick={signOut} className={secondaryBtn}>
+        Sair
+      </button>
 
       <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -106,7 +129,8 @@ function Conta() {
           <AlertDialogHeader>
             <AlertDialogTitle>Apagar tudo?</AlertDialogTitle>
             <AlertDialogDescription className="text-base">
-              Seus registros, sua carta, suas pausas, seu nome e sua data serão apagados para sempre. Não dá para desfazer.
+              Seus registros, sua carta, suas pausas, seu nome e sua data serão apagados para
+              sempre. Não dá para desfazer.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -129,8 +153,8 @@ function Conta() {
         <Lock className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
         <p className="text-base leading-relaxed text-muted-foreground">
           <span className="font-semibold text-foreground">Suas informações são confidenciais.</span>{" "}
-          O que você escreve aqui é só seu: seus registros, sua carta e suas pausas ficam guardados no seu nome e
-          ninguém mais consegue ler. Você está segura.
+          O que você escreve aqui é só seu: seus registros, sua carta e suas pausas ficam guardados
+          no seu nome e ninguém mais consegue ler. Você está segura.
         </p>
       </footer>
     </AppShell>

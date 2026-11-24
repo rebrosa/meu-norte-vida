@@ -53,14 +53,23 @@ export const STATUS_LABEL: Record<string, string> = {
 
 export const LIMITS = { title: [3, 120], body: [50, 8000], pseudonym: [2, 40] } as const;
 
-export type StoryDraft = { title: string; body: string; theme: string; pseudonym: string; warnings: string[] };
+export type StoryDraft = {
+  title: string;
+  body: string;
+  theme: string;
+  pseudonym: string;
+  warnings: string[];
+};
 
 /** Mirrors backend validation so the person sees problems before sending. */
 export function validateDraft(d: StoryDraft): string | null {
   const len = (s: string) => s.trim().length;
-  if (len(d.title) < LIMITS.title[0] || len(d.title) > LIMITS.title[1]) return "O título precisa ter entre 3 e 120 caracteres.";
-  if (len(d.body) < LIMITS.body[0] || len(d.body) > LIMITS.body[1]) return "O texto precisa ter entre 50 e 8000 caracteres.";
-  if (len(d.pseudonym) < LIMITS.pseudonym[0] || len(d.pseudonym) > LIMITS.pseudonym[1]) return "O pseudônimo precisa ter entre 2 e 40 caracteres.";
+  if (len(d.title) < LIMITS.title[0] || len(d.title) > LIMITS.title[1])
+    return "O título precisa ter entre 3 e 120 caracteres.";
+  if (len(d.body) < LIMITS.body[0] || len(d.body) > LIMITS.body[1])
+    return "O texto precisa ter entre 50 e 8000 caracteres.";
+  if (len(d.pseudonym) < LIMITS.pseudonym[0] || len(d.pseudonym) > LIMITS.pseudonym[1])
+    return "O pseudônimo precisa ter entre 2 e 40 caracteres.";
   if (!isTheme(d.theme)) return "Escolha um tema.";
   return null;
 }
@@ -87,7 +96,13 @@ export const accessQuery = queryOptions({
 });
 
 export type PublishedStory = {
-  story_id: string; pseudonym: string; title: string; body: string; theme: string; content_warnings: string[]; published_at: string;
+  story_id: string;
+  pseudonym: string;
+  title: string;
+  body: string;
+  theme: string;
+  content_warnings: string[];
+  published_at: string;
 };
 const PUB_COLS = "story_id, pseudonym, title, body, theme, content_warnings, published_at";
 
@@ -96,7 +111,11 @@ export const muralQuery = (page: number, tema?: string) =>
     queryKey: ["community", "mural", page, tema ?? "all"],
     queryFn: async () => {
       const from = (page - 1) * PAGE_SIZE;
-      let q = supabase.from("community_published").select(PUB_COLS).order("published_at", { ascending: false }).range(from, from + PAGE_SIZE);
+      let q = supabase
+        .from("community_published")
+        .select(PUB_COLS)
+        .order("published_at", { ascending: false })
+        .range(from, from + PAGE_SIZE);
       if (tema) q = q.eq("theme", tema);
       const { data, error } = await q;
       if (error) throw error;
@@ -110,7 +129,11 @@ export const storyQuery = (id: string) =>
     queryKey: ["community", "story", id],
     staleTime: 0,
     queryFn: async () => {
-      const { data, error } = await supabase.from("community_published").select(PUB_COLS).eq("story_id", id).maybeSingle();
+      const { data, error } = await supabase
+        .from("community_published")
+        .select(PUB_COLS)
+        .eq("story_id", id)
+        .maybeSingle();
       if (error) throw error;
       return (data as PublishedStory | null) ?? null;
     },
@@ -121,22 +144,39 @@ export const myReactionsQuery = (id: string) =>
     queryKey: ["community", "my-reactions", id],
     queryFn: async () => {
       const me = await uid();
-      const { data, error } = await supabase.from("community_reactions").select("kind").eq("story_id", id).eq("user_id", me);
+      const { data, error } = await supabase
+        .from("community_reactions")
+        .select("kind")
+        .eq("story_id", id)
+        .eq("user_id", me);
       if (error) throw error;
       return (data ?? []).map((r) => r.kind);
     },
   });
 
 export type MyStory = {
-  id: string; title: string; body: string; theme: string; pseudonym: string; content_warnings: string[]; status: string; moderator_note: string | null; updated_at: string;
+  id: string;
+  title: string;
+  body: string;
+  theme: string;
+  pseudonym: string;
+  content_warnings: string[];
+  status: string;
+  moderator_note: string | null;
+  updated_at: string;
 };
-const MINE_COLS = "id, title, body, theme, pseudonym, content_warnings, status, moderator_note, updated_at";
+const MINE_COLS =
+  "id, title, body, theme, pseudonym, content_warnings, status, moderator_note, updated_at";
 
 export const myStoriesQuery = queryOptions({
   queryKey: ["community", "mine"],
   queryFn: async () => {
     const me = await uid();
-    const { data, error } = await supabase.from("community_stories").select(MINE_COLS).eq("author_id", me).order("updated_at", { ascending: false });
+    const { data, error } = await supabase
+      .from("community_stories")
+      .select(MINE_COLS)
+      .eq("author_id", me)
+      .order("updated_at", { ascending: false });
     if (error) throw error;
     return (data ?? []) as MyStory[];
   },
@@ -147,7 +187,12 @@ export const myStoryQuery = (id: string) =>
     queryKey: ["community", "mine", id],
     queryFn: async () => {
       const me = await uid();
-      const { data, error } = await supabase.from("community_stories").select(MINE_COLS).eq("id", id).eq("author_id", me).maybeSingle();
+      const { data, error } = await supabase
+        .from("community_stories")
+        .select(MINE_COLS)
+        .eq("id", id)
+        .eq("author_id", me)
+        .maybeSingle();
       if (error) throw error;
       return (data as MyStory | null) ?? null;
     },
@@ -156,8 +201,12 @@ export const myStoryQuery = (id: string) =>
 export const pendingQuery = queryOptions({
   queryKey: ["community", "mod", "pending"],
   queryFn: async () => {
-    const { data, error } = await supabase.from("community_stories").select("id, title, body, theme, pseudonym, content_warnings, status, submitted_at")
-      .in("status", ["pending", "published"]).order("submitted_at", { ascending: true }).limit(50);
+    const { data, error } = await supabase
+      .from("community_stories")
+      .select("id, title, body, theme, pseudonym, content_warnings, status, submitted_at")
+      .in("status", ["pending", "published"])
+      .order("submitted_at", { ascending: true })
+      .limit(50);
     if (error) throw error;
     return data ?? [];
   },
@@ -166,8 +215,12 @@ export const pendingQuery = queryOptions({
 export const reportsQuery = queryOptions({
   queryKey: ["community", "mod", "reports"],
   queryFn: async () => {
-    const { data, error } = await supabase.from("community_reports").select("id, story_id, reason, details, created_at")
-      .eq("status", "open").order("created_at", { ascending: true }).limit(50);
+    const { data, error } = await supabase
+      .from("community_reports")
+      .select("id, story_id, reason, details, created_at")
+      .eq("status", "open")
+      .order("created_at", { ascending: true })
+      .limit(50);
     if (error) throw error;
     return data ?? [];
   },
@@ -179,29 +232,54 @@ function check(error: { message: string } | null) {
 
 export async function saveStory(id: string | null, d: StoryDraft): Promise<string> {
   const { data, error } = await supabase.rpc("community_save_story", {
-    p_id: id as string, p_title: d.title, p_body: d.body, p_theme: d.theme, p_pseudonym: d.pseudonym, p_warnings: d.warnings,
+    p_id: id as string,
+    p_title: d.title,
+    p_body: d.body,
+    p_theme: d.theme,
+    p_pseudonym: d.pseudonym,
+    p_warnings: d.warnings,
   });
   check(error);
   return data as string;
 }
 export async function submitStory(id: string, c: Consents) {
   const { error } = await supabase.rpc("community_submit_story", {
-    p_id: id, p_rules_version: RULES_VERSION, p_accept_rules: c.rules, p_accept_moderation: c.moderation, p_accept_display: c.display,
+    p_id: id,
+    p_rules_version: RULES_VERSION,
+    p_accept_rules: c.rules,
+    p_accept_moderation: c.moderation,
+    p_accept_display: c.display,
   });
   check(error);
 }
-export async function withdrawStory(id: string) { check((await supabase.rpc("community_withdraw_story", { p_id: id })).error); }
-export async function deleteDraft(id: string) { check((await supabase.rpc("community_delete_draft", { p_id: id })).error); }
+export async function withdrawStory(id: string) {
+  check((await supabase.rpc("community_withdraw_story", { p_id: id })).error);
+}
+export async function deleteDraft(id: string) {
+  check((await supabase.rpc("community_delete_draft", { p_id: id })).error);
+}
 export async function toggleReaction(id: string, kind: string) {
-  const { data, error } = await supabase.rpc("community_toggle_reaction", { p_story: id, p_kind: kind });
+  const { data, error } = await supabase.rpc("community_toggle_reaction", {
+    p_story: id,
+    p_kind: kind,
+  });
   check(error);
   return data as boolean;
 }
 export async function reportStory(id: string, reason: string, details: string) {
-  check((await supabase.rpc("community_report", { p_story: id, p_reason: reason, p_details: details })).error);
+  check(
+    (await supabase.rpc("community_report", { p_story: id, p_reason: reason, p_details: details }))
+      .error,
+  );
 }
-export async function moderate(id: string, action: "approve" | "reject" | "request_changes" | "withdraw", note: string) {
-  check((await supabase.rpc("community_moderate", { p_id: id, p_action: action, p_note: note })).error);
+export async function moderate(
+  id: string,
+  action: "approve" | "reject" | "request_changes" | "withdraw",
+  note: string,
+) {
+  check(
+    (await supabase.rpc("community_moderate", { p_id: id, p_action: action, p_note: note })).error,
+  );
 }
 export async function reviewReport(id: string, note: string) {
   check((await supabase.rpc("community_review_report", { p_report: id, p_note: note })).error);

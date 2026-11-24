@@ -10,7 +10,10 @@ export const Route = createFileRoute("/_authenticated/acalmar")({
       { title: "Respirar — Reality Check" },
       { name: "description", content: "Um momento para respirar e se reconectar com o presente." },
       { property: "og:title", content: "Respirar — Reality Check" },
-      { property: "og:description", content: "Um momento para respirar e se reconectar com o presente." },
+      {
+        property: "og:description",
+        content: "Um momento para respirar e se reconectar com o presente.",
+      },
     ],
   }),
   component: Acalmar,
@@ -41,11 +44,11 @@ function Acalmar() {
 
   return (
     <AppShell>
-
       <section className="space-y-2">
         <h1 className="font-display text-3xl text-foreground">Como você está agora?</h1>
         <p className="text-lg text-muted-foreground">
-          Descreva o que está sentindo. Vou sugerir um exercício curto para trazer você de volta ao presente.
+          Descreva o que está sentindo. Vou sugerir um exercício curto para trazer você de volta ao
+          presente.
         </p>
       </section>
 
@@ -79,7 +82,10 @@ function Acalmar() {
         </article>
       )}
 
-      <Link to="/ajuda" className="mx-auto mt-auto inline-flex min-h-12 items-center px-4 text-base text-muted-foreground underline">
+      <Link
+        to="/ajuda"
+        className="mx-auto mt-auto inline-flex min-h-12 items-center px-4 text-base text-muted-foreground underline"
+      >
         Preciso de ajuda
       </Link>
     </AppShell>

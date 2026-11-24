@@ -60,7 +60,8 @@ export const suggestGrounding = createServerFn({ method: "POST" })
     } catch (err) {
       const status = (err as { statusCode?: number })?.statusCode;
       console.error("grounding error", status, err);
-      if (status === 429) return { error: "Muitas solicitações. Tente de novo em instantes.", text: null };
+      if (status === 429)
+        return { error: "Muitas solicitações. Tente de novo em instantes.", text: null };
       if (status === 402 || status === 403)
         return { error: "O serviço de sugestões está temporariamente indisponível.", text: null };
       return { error: "Não foi possível gerar uma sugestão agora.", text: null };

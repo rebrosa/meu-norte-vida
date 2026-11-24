@@ -20,10 +20,23 @@ export function PauseTimer() {
 
   return (
     <div className="flex flex-col items-center gap-4 py-8">
-      <p role="timer" aria-label="Tempo restante da pausa" className="font-display text-7xl tabular-nums text-primary">{formatCountdown(remaining)}</p>
-      <progress aria-label="Progresso da pausa" max={total} value={total - remaining} className="pause-progress h-3 w-full overflow-hidden rounded-full" />
+      <p
+        role="timer"
+        aria-label="Tempo restante da pausa"
+        className="font-display text-7xl tabular-nums text-primary"
+      >
+        {formatCountdown(remaining)}
+      </p>
+      <progress
+        aria-label="Progresso da pausa"
+        max={total}
+        value={total - remaining}
+        className="pause-progress h-3 w-full overflow-hidden rounded-full"
+      />
       <p role="status" className="text-center text-lg text-muted-foreground">
-        {remaining === 0 ? "Os 15 minutos terminaram. Como você está agora?" : "Sua pausa está em andamento. Um momento de cada vez."}
+        {remaining === 0
+          ? "Os 15 minutos terminaram. Como você está agora?"
+          : "Sua pausa está em andamento. Um momento de cada vez."}
       </p>
     </div>
   );

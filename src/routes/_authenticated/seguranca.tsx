@@ -16,7 +16,9 @@ export const Route = createFileRoute("/_authenticated/seguranca")({
 function Seguranca() {
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center gap-8 px-5 py-10">
-      <h1 className="font-display text-4xl leading-tight text-foreground">Você está em perigo agora?</h1>
+      <h1 className="font-display text-4xl leading-tight text-foreground">
+        Você está em perigo agora?
+      </h1>
       <div className="space-y-4">
         <Link
           to="/ajuda"

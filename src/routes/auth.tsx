@@ -54,14 +54,41 @@ function AuthPage() {
         <p className="text-lg text-muted-foreground">Seu espaço privado.</p>
       </div>
       <form onSubmit={submit} className="space-y-4">
-        <input className={input} type="email" required placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
-        <input className={input} type="password" required minLength={6} placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete={mode === "in" ? "current-password" : "new-password"} />
-        <button disabled={loading} className="min-h-12 w-full rounded-2xl bg-primary text-lg font-medium text-primary-foreground disabled:opacity-50">
+        <input
+          className={input}
+          type="email"
+          required
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+        />
+        <input
+          className={input}
+          type="password"
+          required
+          minLength={6}
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete={mode === "in" ? "current-password" : "new-password"}
+        />
+        <button
+          disabled={loading}
+          className="min-h-12 w-full rounded-2xl bg-primary text-lg font-medium text-primary-foreground disabled:opacity-50"
+        >
           {mode === "in" ? "Entrar" : "Criar conta"}
         </button>
       </form>
-      {msg && <p role="status" className="text-center text-foreground">{msg}</p>}
-      <button onClick={() => setMode(mode === "in" ? "up" : "in")} className="min-h-12 text-primary underline">
+      {msg && (
+        <p role="status" className="text-center text-foreground">
+          {msg}
+        </p>
+      )}
+      <button
+        onClick={() => setMode(mode === "in" ? "up" : "in")}
+        className="min-h-12 text-primary underline"
+      >
         {mode === "in" ? "Ainda não tenho conta" : "Já tenho conta"}
       </button>
     </main>

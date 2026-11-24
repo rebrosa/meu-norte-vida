@@ -20,7 +20,16 @@ export const Route = createFileRoute("/_authenticated/episodios/novo")({
   component: NovoEpisodio,
 });
 
-const SUGGESTED_TAGS = ["ciúme", "controle", "gritos", "humilhação", "isolamento", "dinheiro", "mentira", "ameaça"];
+const SUGGESTED_TAGS = [
+  "ciúme",
+  "controle",
+  "gritos",
+  "humilhação",
+  "isolamento",
+  "dinheiro",
+  "mentira",
+  "ameaça",
+];
 
 function NovoEpisodio() {
   const navigate = useNavigate();
@@ -48,7 +57,14 @@ function NovoEpisodio() {
     if (!what.trim()) return;
     setSaving(true);
     try {
-      await createEpisode({ occurred_on: date, what_happened: what, how_felt: felt, almost_did: almost, intensity, tags });
+      await createEpisode({
+        occurred_on: date,
+        what_happened: what,
+        how_felt: felt,
+        almost_did: almost,
+        intensity,
+        tags,
+      });
       await queryClient.invalidateQueries({ queryKey: ["episodes"] });
       toast.success("Registro salvo.");
       navigate({ to: "/episodios" });
@@ -63,24 +79,58 @@ function NovoEpisodio() {
   return (
     <AppShell>
       <h1 className="font-display text-3xl text-foreground">Novo registro</h1>
-      <p className="text-base text-muted-foreground">Escreva apenas o que se sentir confortável em compartilhar consigo mesma. Não há resposta certa ou errada. Você pode parar a qualquer momento, sem reviver os detalhes.</p>
+      <p className="text-base text-muted-foreground">
+        Escreva apenas o que se sentir confortável em compartilhar consigo mesma. Não há resposta
+        certa ou errada. Você pode parar a qualquer momento, sem reviver os detalhes.
+      </p>
       <form onSubmit={submit} className="space-y-6">
         <Field label="Data" htmlFor="date">
-          <input id="date" type="date" max={todayISO()} value={date} onChange={(e) => setDate(e.target.value)} className={`${fieldClass} min-h-12`} />
+          <input
+            id="date"
+            type="date"
+            max={todayISO()}
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className={`${fieldClass} min-h-12`}
+          />
         </Field>
         <Field label="O que aconteceu?" htmlFor="what">
-          <textarea id="what" required rows={5} maxLength={5000} value={what} onChange={(e) => setWhat(e.target.value)} className={fieldClass} />
+          <textarea
+            id="what"
+            required
+            rows={5}
+            maxLength={5000}
+            value={what}
+            onChange={(e) => setWhat(e.target.value)}
+            className={fieldClass}
+          />
         </Field>
         <Field label="Como me senti?" htmlFor="felt">
-          <textarea id="felt" rows={3} maxLength={3000} value={felt} onChange={(e) => setFelt(e.target.value)} className={fieldClass} />
+          <textarea
+            id="felt"
+            rows={3}
+            maxLength={3000}
+            value={felt}
+            onChange={(e) => setFelt(e.target.value)}
+            className={fieldClass}
+          />
         </Field>
         <Field label="O que eu quase fiz?" htmlFor="almost">
-          <textarea id="almost" rows={3} maxLength={3000} value={almost} onChange={(e) => setAlmost(e.target.value)} className={fieldClass} />
+          <textarea
+            id="almost"
+            rows={3}
+            maxLength={3000}
+            value={almost}
+            onChange={(e) => setAlmost(e.target.value)}
+            className={fieldClass}
+          />
         </Field>
 
         <fieldset className="space-y-3">
           <legend className="text-lg font-semibold text-foreground">Intensidade</legend>
-          <p className="text-base text-muted-foreground">Como você sentiu esse momento, não uma avaliação do que aconteceu. É opcional.</p>
+          <p className="text-base text-muted-foreground">
+            Como você sentiu esse momento, não uma avaliação do que aconteceu. É opcional.
+          </p>
           <div className="flex justify-between gap-2">
             {[1, 2, 3, 4, 5].map((n) => (
               <button
@@ -94,7 +144,10 @@ function NovoEpisodio() {
               </button>
             ))}
           </div>
-          <p className="flex justify-between text-sm text-muted-foreground"><span>leve</span><span>muito forte</span></p>
+          <p className="flex justify-between text-sm text-muted-foreground">
+            <span>leve</span>
+            <span>muito forte</span>
+          </p>
         </fieldset>
 
         <fieldset className="space-y-3">
@@ -127,7 +180,11 @@ function NovoEpisodio() {
               }}
               className={`${fieldClass} min-h-12 py-2`}
             />
-            <button type="button" onClick={addCustom} className="min-h-12 rounded-2xl bg-secondary px-5 font-semibold text-secondary-foreground">
+            <button
+              type="button"
+              onClick={addCustom}
+              className="min-h-12 rounded-2xl bg-secondary px-5 font-semibold text-secondary-foreground"
+            >
               Adicionar
             </button>
           </div>
@@ -141,10 +198,20 @@ function NovoEpisodio() {
   );
 }
 
-function Field({ label, htmlFor, children }: { label: string; htmlFor: string; children: React.ReactNode }) {
+function Field({
+  label,
+  htmlFor,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="space-y-2">
-      <label htmlFor={htmlFor} className="block text-lg font-semibold text-foreground">{label}</label>
+      <label htmlFor={htmlFor} className="block text-lg font-semibold text-foreground">
+        {label}
+      </label>
       {children}
     </div>
   );

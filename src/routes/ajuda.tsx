@@ -19,7 +19,8 @@ function Ajuda() {
       <header className="space-y-3">
         <h1 className="font-display text-3xl text-foreground">Você não está sozinha.</h1>
         <p className="text-lg text-muted-foreground">
-          Se estiver em perigo, ligue agora. Toque no número para chamar. Se puder, vá para um lugar seguro.
+          Se estiver em perigo, ligue agora. Toque no número para chamar. Se puder, vá para um lugar
+          seguro.
         </p>
       </header>
       <CrisisContacts />

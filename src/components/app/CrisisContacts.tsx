@@ -22,7 +22,9 @@ export function CrisisContacts() {
                   className="flex min-h-16 items-center justify-between gap-4 rounded-2xl bg-card p-4 shadow-sm ring-1 ring-border"
                 >
                   <span className="text-base text-muted-foreground">{it.label}</span>
-                  <span className="whitespace-nowrap text-2xl font-semibold text-primary">{it.number}</span>
+                  <span className="whitespace-nowrap text-2xl font-semibold text-primary">
+                    {it.number}
+                  </span>
                 </a>
               </li>
             ))}

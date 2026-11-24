@@ -49,17 +49,41 @@ function Decisao() {
       </header>
       <form onSubmit={submit} className="space-y-6">
         <div className="space-y-2">
-          <label htmlFor="why" className="block text-lg font-semibold text-foreground">Por que decidi me afastar?</label>
-          <textarea id="why" rows={8} maxLength={10000} value={why} onChange={(e) => setWhy(e.target.value)} className={fieldClass} />
+          <label htmlFor="why" className="block text-lg font-semibold text-foreground">
+            Por que decidi me afastar?
+          </label>
+          <textarea
+            id="why"
+            rows={8}
+            maxLength={10000}
+            value={why}
+            onChange={(e) => setWhy(e.target.value)}
+            className={fieldClass}
+          />
         </div>
         <div className="space-y-2">
-          <label htmlFor="goals" className="block text-lg font-semibold text-foreground">O que quero para minha vida?</label>
-          <textarea id="goals" rows={6} maxLength={10000} value={goals} onChange={(e) => setGoals(e.target.value)} className={fieldClass} />
+          <label htmlFor="goals" className="block text-lg font-semibold text-foreground">
+            O que quero para minha vida?
+          </label>
+          <textarea
+            id="goals"
+            rows={6}
+            maxLength={10000}
+            value={goals}
+            onChange={(e) => setGoals(e.target.value)}
+            className={fieldClass}
+          />
         </div>
-        <button disabled={saving} className={primaryBtn}>{saving ? "Salvando…" : "Salvar carta"}</button>
+        <button disabled={saving} className={primaryBtn}>
+          {saving ? "Salvando…" : "Salvar carta"}
+        </button>
         {letter?.updated_at && (
           <p className="text-center text-sm text-muted-foreground">
-            Última alteração: {new Date(letter.updated_at).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}
+            Última alteração:{" "}
+            {new Date(letter.updated_at).toLocaleString("pt-BR", {
+              dateStyle: "short",
+              timeStyle: "short",
+            })}
           </p>
         )}
       </form>

@@ -24,13 +24,18 @@ export type Episode = {
   created_at: string | null;
 };
 
-const EPISODE_COLS = "id, occurred_on, what_happened, how_felt, almost_did, intensity, tags, created_at";
+const EPISODE_COLS =
+  "id, occurred_on, what_happened, how_felt, almost_did, intensity, tags, created_at";
 
 export const profileQuery = queryOptions({
   queryKey: ["profile"],
   queryFn: async () => {
     const id = await currentUserId();
-    const { data, error } = await supabase.from("profiles").select("display_name").eq("id", id).maybeSingle();
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("display_name")
+      .eq("id", id)
+      .maybeSingle();
     if (error) throw error;
     return { display_name: data?.display_name ?? null };
   },
@@ -97,9 +102,17 @@ export async function saveSeparationDate(iso: string | null) {
   if (error) throw error;
 }
 
-export async function saveLetter(input: { id?: string | null | undefined; why_text: string; future_goals: string }) {
+export async function saveLetter(input: {
+  id?: string | null | undefined;
+  why_text: string;
+  future_goals: string;
+}) {
   const userId = await currentUserId();
-  const row = { why_text: input.why_text, future_goals: input.future_goals, updated_at: new Date().toISOString() };
+  const row = {
+    why_text: input.why_text,
+    future_goals: input.future_goals,
+    updated_at: new Date().toISOString(),
+  };
   const { error } = input.id
     ? await supabase.from("decision_letters").update(row).eq("id", input.id).eq("user_id", userId)
     : await supabase.from("decision_letters").insert({ ...row, user_id: userId });
@@ -140,7 +153,11 @@ export async function createRelapseEvent(feeling: Feeling): Promise<string> {
 
 export async function setRelapseOutcome(id: string, outcome: string) {
   const userId = await currentUserId();
-  const { error } = await supabase.from("relapse_events").update({ outcome }).eq("id", id).eq("user_id", userId);
+  const { error } = await supabase
+    .from("relapse_events")
+    .update({ outcome })
+    .eq("id", id)
+    .eq("user_id", userId);
   if (error) throw error;
 }
 

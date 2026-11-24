@@ -7,7 +7,14 @@ import { IntensityDots } from "@/components/app/IntensityDots";
 import { formatDateBR, PAUSE_MINUTES } from "@/lib/dates";
 import { PauseTimer } from "@/components/app/PauseTimer";
 import { Button } from "@/components/ui/button";
-import { createRelapseEvent, FEELINGS, letterQuery, setRelapseOutcome, topEpisodesQuery, type Feeling } from "@/lib/journal";
+import {
+  createRelapseEvent,
+  FEELINGS,
+  letterQuery,
+  setRelapseOutcome,
+  topEpisodesQuery,
+  type Feeling,
+} from "@/lib/journal";
 
 export const Route = createFileRoute("/_authenticated/voltar")({
   head: () => ({
@@ -31,7 +38,10 @@ function Voltar() {
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-6 px-5 py-8">
       <header className="flex items-center justify-between">
         <span className="text-sm font-semibold text-muted-foreground">Passo {step} de 3</span>
-        <Link to="/inicio" className="inline-flex min-h-12 items-center px-2 text-base text-muted-foreground underline">
+        <Link
+          to="/inicio"
+          className="inline-flex min-h-12 items-center px-2 text-base text-muted-foreground underline"
+        >
           Início
         </Link>
       </header>
@@ -67,12 +77,19 @@ function StepBreathe({ onDone }: { onDone: (id: string | null) => void }) {
   return (
     <section className="flex flex-1 flex-col gap-6">
       <div className="space-y-3">
-        <h1 className="font-display text-4xl leading-tight text-foreground">Respire. Você não precisa decidir agora.</h1>
-        <p className="text-lg text-muted-foreground">Se for confortável, respire no seu ritmo, sem forçar. Você pode manter os olhos abertos e observar três objetos ao redor. Tudo bem parar.</p>
+        <h1 className="font-display text-4xl leading-tight text-foreground">
+          Respire. Você não precisa decidir agora.
+        </h1>
+        <p className="text-lg text-muted-foreground">
+          Se for confortável, respire no seu ritmo, sem forçar. Você pode manter os olhos abertos e
+          observar três objetos ao redor. Tudo bem parar.
+        </p>
       </div>
       <div className="mx-auto h-32 w-32 animate-pulse rounded-full bg-secondary" aria-hidden />
       <fieldset className="space-y-3">
-        <legend className="text-lg font-semibold text-foreground">O que você está sentindo agora?</legend>
+        <legend className="text-lg font-semibold text-foreground">
+          O que você está sentindo agora?
+        </legend>
         <div className="flex flex-wrap gap-3">
           {FEELINGS.map((f) => (
             <button
@@ -102,8 +119,13 @@ function StepRemember({ onNext }: { onNext: () => void }) {
   return (
     <section className="flex flex-1 flex-col gap-6">
       <h1 className="font-display text-3xl text-foreground">Lembre do que você escreveu</h1>
-      <p className="text-base text-muted-foreground">Seus registros não estão sendo julgados. Releia apenas se isso fizer bem agora; você pode seguir direto para a pausa.</p>
-      <Button variant="outline" className="min-h-12 whitespace-normal text-base" onClick={onNext}>Prefiro ir direto para a pausa</Button>
+      <p className="text-base text-muted-foreground">
+        Seus registros não estão sendo julgados. Releia apenas se isso fizer bem agora; você pode
+        seguir direto para a pausa.
+      </p>
+      <Button variant="outline" className="min-h-12 whitespace-normal text-base" onClick={onNext}>
+        Prefiro ir direto para a pausa
+      </Button>
 
       {letter.isPending ? (
         <p className="text-muted-foreground">Carregando…</p>
@@ -118,14 +140,18 @@ function StepRemember({ onNext }: { onNext: () => void }) {
           {letter.data?.future_goals && (
             <div className="space-y-1">
               <h2 className="text-base font-semibold">O que quero para minha vida</h2>
-              <p className="whitespace-pre-line text-lg leading-relaxed">{letter.data.future_goals}</p>
+              <p className="whitespace-pre-line text-lg leading-relaxed">
+                {letter.data.future_goals}
+              </p>
             </div>
           )}
         </article>
       ) : (
         <p className="rounded-3xl bg-secondary p-6 text-lg text-secondary-foreground">
           Você ainda não escreveu sua carta.{" "}
-          <Link to="/decisao" className="font-semibold text-primary underline">Escrever agora</Link>
+          <Link to="/decisao" className="font-semibold text-primary underline">
+            Escrever agora
+          </Link>
         </p>
       )}
 
@@ -138,7 +164,9 @@ function StepRemember({ onNext }: { onNext: () => void }) {
             {top.data.map((ep) => (
               <li key={ep.id} className="space-y-2 rounded-3xl bg-card p-5 ring-1 ring-border">
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-muted-foreground">{formatDateBR(ep.occurred_on) || "Sem data"}</span>
+                  <span className="font-semibold text-muted-foreground">
+                    {formatDateBR(ep.occurred_on) || "Sem data"}
+                  </span>
                   <IntensityDots value={ep.intensity} />
                 </div>
                 <p className="whitespace-pre-line text-lg text-foreground">{ep.what_happened}</p>
@@ -169,16 +197,23 @@ function StepPause({ eventId }: { eventId: string | null }) {
     } catch {
       /* the urge was still logged in step 1 */
     }
-    toast.success(outcome === "manteve_decisao" ? "Você cuidou de si hoje." : "Tudo bem. Você pode voltar aqui quando quiser.");
+    toast.success(
+      outcome === "manteve_decisao"
+        ? "Você cuidou de si hoje."
+        : "Tudo bem. Você pode voltar aqui quando quiser.",
+    );
     navigate({ to: "/inicio" });
   }
 
   return (
     <section className="flex flex-1 flex-col gap-6">
       <div className="space-y-2">
-        <h1 className="font-display text-3xl text-foreground">Dê a si mesma {PAUSE_MINUTES} minutos</h1>
+        <h1 className="font-display text-3xl text-foreground">
+          Dê a si mesma {PAUSE_MINUTES} minutos
+        </h1>
         <p className="text-lg text-muted-foreground">
-          Se puder, deixe mensagens e decisões para depois. Escolha um pequeno cuidado para este momento. Você pode encerrar a pausa quando quiser.
+          Se puder, deixe mensagens e decisões para depois. Escolha um pequeno cuidado para este
+          momento. Você pode encerrar a pausa quando quiser.
         </p>
       </div>
       <PauseTimer />
@@ -189,7 +224,10 @@ function StepPause({ eventId }: { eventId: string | null }) {
         <button disabled={saving} onClick={() => finish("em_duvida")} className={secondaryBtn}>
           Ainda estou em dúvida
         </button>
-        <Link to="/ajuda" className="flex min-h-12 items-center justify-center text-base text-muted-foreground underline">
+        <Link
+          to="/ajuda"
+          className="flex min-h-12 items-center justify-center text-base text-muted-foreground underline"
+        >
           Preciso de ajuda
         </Link>
       </div>

@@ -51,21 +51,33 @@ function Inicio() {
       </Link>
 
       <div className="grid grid-cols-2 gap-4">
-        <Link to="/episodios/novo" className="flex min-h-28 flex-col items-start justify-between rounded-3xl bg-card p-5 ring-1 ring-border">
+        <Link
+          to="/episodios/novo"
+          className="flex min-h-28 flex-col items-start justify-between rounded-3xl bg-card p-5 ring-1 ring-border"
+        >
           <BookOpen className="h-7 w-7 text-primary" aria-hidden />
           <span className="text-lg font-semibold text-foreground">Registrar episódio</span>
         </Link>
-        <Link to="/decisao" className="flex min-h-28 flex-col items-start justify-between rounded-3xl bg-card p-5 ring-1 ring-border">
+        <Link
+          to="/decisao"
+          className="flex min-h-28 flex-col items-start justify-between rounded-3xl bg-card p-5 ring-1 ring-border"
+        >
           <Feather className="h-7 w-7 text-primary" aria-hidden />
           <span className="text-lg font-semibold text-foreground">Minha decisão</span>
         </Link>
       </div>
 
-      <Link to="/comunidade" className="flex min-h-16 items-center justify-center rounded-3xl bg-card px-5 text-lg font-semibold text-foreground ring-1 ring-border">
+      <Link
+        to="/comunidade"
+        className="flex min-h-16 items-center justify-center rounded-3xl bg-card px-5 text-lg font-semibold text-foreground ring-1 ring-border"
+      >
         Comunidade
       </Link>
 
-      <Link to="/ajuda" className="mx-auto inline-flex min-h-12 items-center px-4 text-base text-muted-foreground underline">
+      <Link
+        to="/ajuda"
+        className="mx-auto inline-flex min-h-12 items-center px-4 text-base text-muted-foreground underline"
+      >
         Preciso de ajuda
       </Link>
     </AppShell>
@@ -96,7 +108,14 @@ function SeparationDatePrompt() {
       <label htmlFor="sep" className="block text-lg font-semibold text-secondary-foreground">
         Quando você se afastou?
       </label>
-      <input id="sep" type="date" max={todayISO()} value={date} onChange={(e) => setDate(e.target.value)} className={`${fieldClass} min-h-12`} />
+      <input
+        id="sep"
+        type="date"
+        max={todayISO()}
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+        className={`${fieldClass} min-h-12`}
+      />
       <button disabled={!date || saving} className={primaryBtn}>
         Salvar data
       </button>

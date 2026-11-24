@@ -151,6 +151,12 @@
   background: var(--muted);
   color: var(--primary);
 }
-.pause-progress::-webkit-progress-bar { background: var(--muted); }
-.pause-progress::-webkit-progress-value { background: var(--primary); }
-.pause-progress::-moz-progress-bar { background: var(--primary); }
+.pause-progress::-webkit-progress-bar {
+  background: var(--muted);
+}
+.pause-progress::-webkit-progress-value {
+  background: var(--primary);
+}
+.pause-progress::-moz-progress-bar {
+  background: var(--primary);
+}
