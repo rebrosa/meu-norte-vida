@@ -4,7 +4,7 @@ export const translations: Record<string, Partial<Record<"pt-BR" | "en" | "de", 
     "en": "A personal, private journal.",
     "de": "Ein persönliches, privates Tagebuch."
   },
-  "Um espaço calmo e privado TESTE, só seu.": {
+  "Um espaço calmo e privado, só seu.": {
     "en": "A calm, private space, just for you.",
     "de": "Ein ruhiger, privater Raum, nur für dich."
   },
