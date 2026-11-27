@@ -22,9 +22,9 @@ Calm and warm. Background #FAF7F2, primary teal #2F6F73, sand #E8DCC8, single co
 
 This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://realitycheck.rebrosa.workers.dev
+**Live app (main)**: https://meu-norte-vida.lovable.app
 
-**Alternative (Lovable)**: https://meu-norte-vida.lovable.app
+**Alternative (Cloudflare)**: https://realitycheck.rebrosa.workers.dev — the AI exercise (Acalmar/Respirar) does not work here yet; see roadmap.md, "Prioridade alta".
 
 ## Build with Lovable
 

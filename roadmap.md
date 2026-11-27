@@ -21,8 +21,10 @@
 - [x] Apagar a conta inteira (delete_my_account) com confirmação por palavra.
 - [x] Limite de uso da IA do Respirar: 10 por hora e 30 por dia, por pessoa.
 - [x] Aviso de senha com 10+ caracteres no cadastro.
-- [x] Publicação na Cloudflare ligada ao repositório meu-norte-vida (build a cada commit na main). Endereço oficial: https://realitycheck.rebrosa.workers.dev — nome neutro e mais adequado para as três línguas (EN/PT/DE).
-- [x] README atualizado: endereço principal na Cloudflare e link do Lovable (meu-norte-vida.lovable.app) como alternativa.
+- [x] Publicação na Cloudflare ligada ao repositório meu-norte-vida (build a cada commit na main), em https://realitycheck.rebrosa.workers.dev — nome neutro e adequado para as três línguas (EN/PT/DE). Atualização de 27/11: passa a ser o endereço alternativo; o Acalmar ainda não funciona nele (ver Prioridade alta).
+- [x] Decisão de 27/11/2026: o Lovable (https://meu-norte-vida.lovable.app) volta a ser o endereço principal; README atualizado.
+- [x] Worker antigo meu-norte apagado no Cloudflare (27/11/2026).
+- [x] Supabase: Site URL e Redirect URLs atualizados (27/11/2026).
 
 ## Backlog de produto
 - [ ] Comunidade “Você não está sozinha”: revisar segurança e capacidade de moderação; começar com relatos moderados e avaliar um fórum interativo depois.
@@ -55,10 +57,9 @@
 - [ ] Novo registro: trocar “O que eu quase fiz?” por “Senti vontade de fazer algo? (opcional)” e indicar que os marcadores são opcionais.
 - [ ] Verificar quando o botão “Salvar registro” fica habilitado e quais campos são obrigatórios.
 - [ ] Mostrar o acesso “Preciso de ajuda” também na home.
-- [ ] Mensagem amigável quando o exercício do Respirar falhar; nunca exibir erro técnico (ex.: variáveis do Supabase ausentes) à usuária. Confirmar se o erro de variáveis SUPABASE_URL/SUPABASE_PUBLISHABLE_KEY já foi resolvido.
+- [ ] Mensagem amigável quando o exercício do Respirar falhar; nunca exibir erro técnico (ex.: variáveis do Supabase ausentes) à usuária. Em 27/11 o erro de SUPABASE_URL/SUPABASE_PUBLISHABLE_KEY apareceu no Cloudflare, porque o Worker realitycheck não tem variáveis cadastradas; no Lovable elas já existem.
 
 ## Infraestrutura e testes
-- [ ] Repositório oficial: meu-norte-vida. Desativar ou apagar o Worker antigo meu-norte (meu-norte.rebrosa.workers.dev) e o repositório cópia meu-norte, se não forem mais usados.
-- [ ] Supabase: em Authentication > URL Configuration, atualizar o Site URL e os Redirect URLs para https://realitycheck.rebrosa.workers.dev.
-- [ ] Testar navegação das rotas públicas (/ e /seguranca) e do fluxo logado em um navegador real, no novo endereço.
+- [ ] Desativar ou apagar o repositório cópia meu-norte, se não for mais usado (o Worker antigo já foi apagado).
+- [ ] Testar login e navegação das rotas públicas (/ e /seguranca) e do fluxo logado nos dois endereços (Lovable e Cloudflare), após a atualização das URLs do Supabase.
 - [ ] Cenários de teste: executar os 10 primeiros cenários do plano de MVP.
