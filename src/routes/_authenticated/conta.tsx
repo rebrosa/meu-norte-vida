@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Lock } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell, fieldClass, primaryBtn, secondaryBtn } from "@/components/app/AppShell";
+import { FeedbackLink } from "@/components/app/FeedbackLink";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -113,6 +114,8 @@ function Conta() {
           {saving ? "Salvando…" : "Salvar"}
         </button>
       </form>
+
+      <FeedbackLink />
 
       <p className="text-base text-muted-foreground">Conectada como {user.email}</p>
       <button onClick={signOut} className={secondaryBtn}>
