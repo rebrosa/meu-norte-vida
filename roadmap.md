@@ -53,6 +53,6 @@
 - [ ] Mensagem amigável quando o exercício do Respirar falhar; nunca exibir erro técnico (ex.: variáveis do Supabase ausentes) à usuária. Confirmar se o erro de variáveis SUPABASE_URL/SUPABASE_PUBLISHABLE_KEY já foi resolvido.
 
 ## Infraestrutura e testes
-- [ ] Confirmar qual repositório é o oficial (meu-norte-vida ou meu-norte, publicado na Cloudflare) e alinhar os dois.
+- [ ] Repositório oficial: meu-norte-vida. Conectar a publicação da Cloudflare a ele (o repositório meu-norte parece ser só uma cópia importada em 18/11, com um commit) e confirmar que o endereço publicado reflete as mudanças mais recentes.
 - [ ] Testar navegação das rotas públicas (/ e /seguranca) e do fluxo logado em um navegador real.
 - [ ] Cenários de teste: executar os 10 primeiros cenários do plano de MVP.
