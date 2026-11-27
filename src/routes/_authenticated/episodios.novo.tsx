@@ -4,15 +4,16 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { AppShell, fieldClass, primaryBtn } from "@/components/app/AppShell";
 import { todayISO } from "@/lib/dates";
+import { useI18n } from "@/lib/i18n";
 import { createEpisode } from "@/lib/journal";
 
 export const Route = createFileRoute("/_authenticated/episodios/novo")({
   head: () => ({
     meta: [
-      { title: "Novo registro — Reality Check" },
-      { name: "description", content: "Anote o que aconteceu." },
-      { property: "og:title", content: "Novo registro — Reality Check" },
-      { property: "og:description", content: "Anote o que aconteceu." },
+      { title: "New entry — Reality Check" },
+      { name: "description", content: "Write down what happened." },
+      { property: "og:title", content: "New entry — Reality Check" },
+      { property: "og:description", content: "Write down what happened." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/_authenticated/episodios/novo")({
   component: NovoEpisodio,
 });
 
+// Stored in Portuguese so entries stay consistent across languages; shown translated.
 const SUGGESTED_TAGS = [
   "ciúme",
   "controle",
@@ -32,6 +34,7 @@ const SUGGESTED_TAGS = [
 ];
 
 function NovoEpisodio() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [date, setDate] = useState(todayISO());
@@ -43,12 +46,12 @@ function NovoEpisodio() {
   const [customTag, setCustomTag] = useState("");
   const [saving, setSaving] = useState(false);
 
-  function toggleTag(t: string) {
-    setTags((cur) => (cur.includes(t) ? cur.filter((x) => x !== t) : [...cur, t]));
+  function toggleTag(tag: string) {
+    setTags((cur) => (cur.includes(tag) ? cur.filter((x) => x !== tag) : [...cur, tag]));
   }
   function addCustom() {
-    const t = customTag.trim().toLowerCase();
-    if (t && !tags.includes(t)) setTags([...tags, t]);
+    const tag = customTag.trim().toLowerCase();
+    if (tag && !tags.includes(tag)) setTags([...tags, tag]);
     setCustomTag("");
   }
 
@@ -66,25 +69,26 @@ function NovoEpisodio() {
         tags,
       });
       await queryClient.invalidateQueries({ queryKey: ["episodes"] });
-      toast.success("Registro salvo.");
+      toast.success(t("Registro salvo."));
       navigate({ to: "/episodios" });
     } catch {
-      toast.error("Não foi possível salvar. Tente de novo.");
+      toast.error(t("Não foi possível salvar. Tente de novo."));
       setSaving(false);
     }
   }
 
-  const allTags = [...SUGGESTED_TAGS, ...tags.filter((t) => !SUGGESTED_TAGS.includes(t))];
+  const allTags = [...SUGGESTED_TAGS, ...tags.filter((tag) => !SUGGESTED_TAGS.includes(tag))];
 
   return (
     <AppShell>
-      <h1 className="font-display text-3xl text-foreground">Novo registro</h1>
+      <h1 className="font-display text-3xl text-foreground">{t("Novo registro")}</h1>
       <p className="text-base text-muted-foreground">
-        Escreva apenas o que se sentir confortável em compartilhar consigo mesma. Não há resposta
-        certa ou errada. Você pode parar a qualquer momento, sem reviver os detalhes.
+        {t(
+          "Escreva apenas o que se sentir confortável em compartilhar consigo mesma. Não há resposta certa ou errada. Você pode parar a qualquer momento, sem reviver os detalhes.",
+        )}
       </p>
       <form onSubmit={submit} className="space-y-6">
-        <Field label="Data" htmlFor="date">
+        <Field label={t("Data")} htmlFor="date">
           <input
             id="date"
             type="date"
@@ -94,7 +98,7 @@ function NovoEpisodio() {
             className={`${fieldClass} min-h-12`}
           />
         </Field>
-        <Field label="O que aconteceu?" htmlFor="what">
+        <Field label={t("O que aconteceu?")} htmlFor="what">
           <textarea
             id="what"
             required
@@ -105,7 +109,7 @@ function NovoEpisodio() {
             className={fieldClass}
           />
         </Field>
-        <Field label="Como me senti?" htmlFor="felt">
+        <Field label={t("Como me senti?")} htmlFor="felt">
           <textarea
             id="felt"
             rows={3}
@@ -115,7 +119,7 @@ function NovoEpisodio() {
             className={fieldClass}
           />
         </Field>
-        <Field label="O que eu quase fiz?" htmlFor="almost">
+        <Field label={t("O que eu quase fiz?")} htmlFor="almost">
           <textarea
             id="almost"
             rows={3}
@@ -127,9 +131,11 @@ function NovoEpisodio() {
         </Field>
 
         <fieldset className="space-y-3">
-          <legend className="text-lg font-semibold text-foreground">Intensidade</legend>
+          <legend className="text-lg font-semibold text-foreground">{t("Intensidade")}</legend>
           <p className="text-base text-muted-foreground">
-            Como você sentiu esse momento, não uma avaliação do que aconteceu. É opcional.
+            {t(
+              "Como você sentiu esse momento, não uma avaliação do que aconteceu. É opcional.",
+            )}
           </p>
           <div className="flex justify-between gap-2">
             {[1, 2, 3, 4, 5].map((n) => (
@@ -145,30 +151,30 @@ function NovoEpisodio() {
             ))}
           </div>
           <p className="flex justify-between text-sm text-muted-foreground">
-            <span>leve</span>
-            <span>muito forte</span>
+            <span>{t("leve")}</span>
+            <span>{t("muito forte")}</span>
           </p>
         </fieldset>
 
         <fieldset className="space-y-3">
-          <legend className="text-lg font-semibold text-foreground">Marcadores</legend>
+          <legend className="text-lg font-semibold text-foreground">{t("Marcadores")}</legend>
           <div className="flex flex-wrap gap-2">
-            {allTags.map((t) => (
+            {allTags.map((tag) => (
               <button
-                key={t}
+                key={tag}
                 type="button"
-                aria-pressed={tags.includes(t)}
-                onClick={() => toggleTag(t)}
-                className={`min-h-12 rounded-full px-4 text-base ring-1 ring-border ${tags.includes(t) ? "bg-primary text-primary-foreground" : "bg-card text-foreground"}`}
+                aria-pressed={tags.includes(tag)}
+                onClick={() => toggleTag(tag)}
+                className={`min-h-12 rounded-full px-4 text-base ring-1 ring-border ${tags.includes(tag) ? "bg-primary text-primary-foreground" : "bg-card text-foreground"}`}
               >
-                {t}
+                {t(tag)}
               </button>
             ))}
           </div>
           <div className="flex gap-2">
             <input
-              aria-label="Novo marcador"
-              placeholder="Outro marcador"
+              aria-label={t("Novo marcador")}
+              placeholder={t("Outro marcador")}
               value={customTag}
               maxLength={40}
               onChange={(e) => setCustomTag(e.target.value)}
@@ -185,13 +191,13 @@ function NovoEpisodio() {
               onClick={addCustom}
               className="min-h-12 rounded-2xl bg-secondary px-5 font-semibold text-secondary-foreground"
             >
-              Adicionar
+              {t("Adicionar")}
             </button>
           </div>
         </fieldset>
 
         <button disabled={saving || !what.trim()} className={primaryBtn}>
-          {saving ? "Salvando…" : "Salvar registro"}
+          {saving ? t("Salvando…") : t("Salvar registro")}
         </button>
       </form>
     </AppShell>
