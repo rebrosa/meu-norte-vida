@@ -3,7 +3,7 @@
 > Arquivo central de features e backlog. Mantém o conteúdo anterior e acrescenta o histórico do git e as pendências discutidas no projeto.
 
 ## Prioridade alta
-- [ ] IA do Acalmar/Respirar no Cloudflare, independente do Lovable (decisão de 27/11/2026): hoje a função lê LOVABLE_API_KEY (src/lib/grounding.functions.ts), chave que só existe dentro do Lovable e é cobrada nos créditos dele. Motivo: deixar o app mais confiável e não depender de um plano pago do Lovable, que ainda não está decidido. Passos: (1) escolher o provedor (OpenAI, Gemini ou Claude); (2) trocar a chamada em grounding.functions.ts pelo provedor escolhido; (3) cadastrar a chave como Secret no Worker realitycheck, junto com SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY e SUPABASE_SERVICE_ROLE_KEY; (4) novo deploy e teste do Acalmar em janela anônima. Enquanto isso, o Lovable (meu-norte-vida.lovable.app) segue como endereço principal e o Cloudflare como alternativo, sem o Acalmar funcionando.
+- [ ] IA do Acalmar/Respirar no Cloudflare, independente do Lovable (decisão de 27/11/2026): hoje a função lê LOVABLE_API_KEY (src/lib/grounding.functions.ts), chave que só existe dentro do Lovable e é cobrada nos créditos dele. Motivo: deixar o app mais confiável e não depender de um plano pago do Lovable, que ainda não está decidido. Passos: (1) escolher o provedor (OpenAI, Gemini ou Claude); (2) trocar a chamada em grounding.functions.ts pelo provedor escolhido e aproveitar para trocar inputValidator() (obsoleto, aviso no build, linha 105) por validator(); (3) cadastrar a chave como Secret no Worker realitycheck, junto com SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY e SUPABASE_SERVICE_ROLE_KEY; (4) novo deploy e teste do Acalmar em janela anônima. Enquanto isso, o Lovable (meu-norte-vida.lovable.app) segue como endereço principal e o Cloudflare como alternativo, sem o Acalmar funcionando.
 
 ## Em andamento
 - [ ] Add German and English versions with a language selector, preserving original personal writing and Brazilian crisis contacts. (Parcialmente entregue: ver "Concluído" > i18n; falta revisar a cobertura de todas as telas e a preservação dos textos pessoais.)
@@ -25,6 +25,9 @@
 - [x] Decisão de 27/11/2026: o Lovable (https://meu-norte-vida.lovable.app) volta a ser o endereço principal; README atualizado.
 - [x] Worker antigo meu-norte apagado no Cloudflare (27/11/2026).
 - [x] Supabase: Site URL e Redirect URLs atualizados (27/11/2026).
+- [x] PRs nº 1 a 4 mesclados na main em 27/11/2026 (feedback em prévia, i18n, exclusão de conta, limite de IA).
+- [x] Verificações automáticas na feat/ai-limit em 27/11/2026: 22 de 22 testes, tsc sem erros, lint com 0 erros e 9 avisos, build concluído.
+- [x] Lista de 10 cenários de teste manual criada em docs/mvp-test-scenarios.md (27/11/2026).
 
 ## Backlog de produto
 - [ ] Comunidade “Você não está sozinha”: revisar segurança e capacidade de moderação; começar com relatos moderados e avaliar um fórum interativo depois.
@@ -51,6 +54,7 @@
 - [ ] Revisar o arquivo .env versionado no repositório público: manter somente valores públicos (URL e chave publishable); nunca service-role, secret ou senha do banco.
 - [ ] Revisão por psicóloga(o) dos textos sensíveis e por especialista em proteção de dados (LGPD/GDPR).
 - [ ] Nome, ícone e títulos neutros; sem rastreadores ou analytics de terceiros.
+- [ ] Política de privacidade: citar que o texto do Respirar vai para um serviço de IA externo e a regra de exclusão de conta.
 
 ## Ajustes de interface e texto
 - [ ] Tela de ajuda: diferenciar 190 (emergência ou perigo imediato) de 180 (orientação e denúncia, gratuito, 24 horas).
@@ -62,4 +66,4 @@
 ## Infraestrutura e testes
 - [ ] Desativar ou apagar o repositório cópia meu-norte, se não for mais usado (o Worker antigo já foi apagado).
 - [ ] Testar login e navegação das rotas públicas (/ e /seguranca) e do fluxo logado nos dois endereços (Lovable e Cloudflare), após a atualização das URLs do Supabase.
-- [ ] Cenários de teste: executar os 10 primeiros cenários do plano de MVP.
+- [ ] Cenários de teste: executar os 10 cenários de docs/mvp-test-scenarios.md e preencher a coluna Resultado (lista criada em 27/11/2026; nenhum executado ainda).
