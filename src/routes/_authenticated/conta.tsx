@@ -18,8 +18,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { todayISO } from "@/lib/dates";
-import { useI18n } from "@/lib/i18n";
-import { deleteAllMyRows, profileQuery, saveProfileName, saveSeparationDate } from "@/lib/journal";
+import { useI18n, type Lang } from "@/lib/i18n";
+import { deleteMyAccount, profileQuery, saveProfileName, saveSeparationDate } from "@/lib/journal";
 import { CONFIDENTIAL_BODY } from "@/lib/translations.extra";
 
 export const Route = createFileRoute("/_authenticated/conta")({
@@ -35,8 +35,44 @@ export const Route = createFileRoute("/_authenticated/conta")({
   component: Conta,
 });
 
+type DeleteCopy = {
+  trigger: string;
+  word: string;
+  description: string;
+  prompt: string;
+  done: string;
+};
+
+const DELETE_COPY: Record<Lang, DeleteCopy> = {
+  "pt-BR": {
+    trigger: "Apagar minha conta e todos os meus dados",
+    word: "APAGAR",
+    description:
+      "Seus registros, sua carta, suas pausas, seu nome e sua data serão apagados para sempre. Sua conta e seu login também serão excluídos, assim como seus relatos, reações e denúncias na Comunidade. Não dá para desfazer.",
+    prompt: "Para confirmar, digite APAGAR.",
+    done: "Sua conta e todos os seus dados foram apagados.",
+  },
+  en: {
+    trigger: "Delete my account and all my data",
+    word: "DELETE",
+    description:
+      "Your entries, letter, pauses, name and date will be permanently deleted. Your account and login will also be deleted, along with your stories, reactions and reports in the Community. This cannot be undone.",
+    prompt: "To confirm, type DELETE.",
+    done: "Your account and all your data have been deleted.",
+  },
+  de: {
+    trigger: "Mein Konto und alle meine Daten löschen",
+    word: "LÖSCHEN",
+    description:
+      "Deine Einträge, dein Brief, deine Pausen, dein Name und dein Datum werden dauerhaft gelöscht. Dein Konto und dein Login werden ebenfalls gelöscht, ebenso deine Geschichten, Reaktionen und Meldungen in der Gemeinschaft. Das lässt sich nicht rückgängig machen.",
+    prompt: "Zur Bestätigung gib LÖSCHEN ein.",
+    done: "Dein Konto und alle deine Daten wurden gelöscht.",
+  },
+};
+
 function Conta() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const copy = DELETE_COPY[lang];
   const { user } = Route.useRouteContext();
   const router = useRouter();
   const navigate = useNavigate();
@@ -48,6 +84,8 @@ function Conta() {
   );
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [confirmText, setConfirmText] = useState("");
+  const confirmed = confirmText.trim().toLocaleUpperCase(lang) === copy.word;
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
@@ -73,15 +111,20 @@ function Conta() {
   }
 
   async function deleteEverything() {
+    if (!confirmed) return;
     setDeleting(true);
     try {
-      await deleteAllMyRows();
-      toast.success(t("Todos os seus dados foram apagados."));
-      await signOut();
+      await deleteMyAccount();
     } catch {
       toast.error(t("Não foi possível apagar tudo. Tente de novo."));
       setDeleting(false);
+      return;
     }
+    toast.success(copy.done);
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut({ scope: "local" });
+    navigate({ to: "/auth", replace: true });
   }
 
   return (
@@ -127,25 +170,43 @@ function Conta() {
         {t("Sair")}
       </button>
 
-      <AlertDialog>
+      <AlertDialog
+        onOpenChange={(open) => {
+          if (!open) setConfirmText("");
+        }}
+      >
         <AlertDialogTrigger asChild>
-          <button className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-2xl border-2 border-destructive px-6 text-lg font-semibold text-destructive">
-            {t("Apagar todos os meus dados")}
+          <button className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-2xl border-2 border-destructive px-6 text-center text-lg font-semibold text-destructive">
+            {copy.trigger}
           </button>
         </AlertDialogTrigger>
         <AlertDialogContent className="rounded-3xl">
           <AlertDialogHeader>
             <AlertDialogTitle>{t("Apagar tudo?")}</AlertDialogTitle>
             <AlertDialogDescription className="text-base">
-              {t(
-                "Seus registros, sua carta, suas pausas, seu nome e sua data serão apagados para sempre. Não dá para desfazer.",
-              )}
+              {copy.description}
             </AlertDialogDescription>
           </AlertDialogHeader>
+          <div className="space-y-2">
+            <label
+              htmlFor="confirm-delete"
+              className="block text-base font-semibold text-foreground"
+            >
+              {copy.prompt}
+            </label>
+            <input
+              id="confirm-delete"
+              value={confirmText}
+              onChange={(e) => setConfirmText(e.target.value)}
+              autoComplete="off"
+              autoCapitalize="characters"
+              className={`${fieldClass} min-h-12`}
+            />
+          </div>
           <AlertDialogFooter>
             <AlertDialogCancel className="min-h-12">{t("Cancelar")}</AlertDialogCancel>
             <AlertDialogAction
-              disabled={deleting}
+              disabled={deleting || !confirmed}
               onClick={(e) => {
                 e.preventDefault();
                 deleteEverything();
