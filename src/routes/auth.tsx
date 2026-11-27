@@ -25,7 +25,7 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
-function signUpErrorKey(error: { code?: string; status?: number }): string {
+function signUpErrorKey(error: { code?: string | undefined; status?: number | undefined }): string {
   switch (error.code) {
     case "weak_password":
       return AUTH_ERR_WEAK;
