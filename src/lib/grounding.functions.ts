@@ -74,6 +74,34 @@ const MSG: Record<
   },
 };
 
+// Shown when the person reached the usage limit. A kind note plus a simple exercise that needs no AI.
+const LIMIT_TEXT: Record<Lang, string> = {
+  "pt-BR":
+    "Você já usou todas as sugestões por agora. Tente de novo mais tarde. Enquanto isso, um exercício simples, que não precisa de nada: se for confortável, mantenha os olhos abertos e perceba o apoio dos pés. Olhe ao redor e nomeie três objetos e suas cores. Respire no seu ritmo, sem forçar. Se algo incomodar, pare. Se precisar de ajuda agora, abra “Preciso de ajuda”.",
+  en: "You've used all your suggestions for now. Please try again later. In the meantime, a simple exercise that needs nothing: if it feels comfortable, keep your eyes open and notice the support of your feet. Look around and name three objects and their colors. Breathe at your own pace, without forcing it. If anything feels uncomfortable, stop. If you need help right now, open “I need help”.",
+  de: "Du hast deine Vorschläge für den Moment aufgebraucht. Versuche es später noch einmal. In der Zwischenzeit eine einfache Übung, für die du nichts brauchst: Wenn es sich angenehm anfühlt, lass die Augen offen und spüre den Halt deiner Füße. Sieh dich um und benenne drei Gegenstände und ihre Farben. Atme in deinem eigenen Rhythmus, ohne Druck. Wenn etwas unangenehm wird, hör auf. Wenn du jetzt Hilfe brauchst, öffne „Ich brauche Hilfe“.",
+};
+
+type QuotaRpc = (fn: string) => Promise<{
+  data: boolean | null;
+  error: { message: string } | null;
+}>;
+
+/**
+ * Asks the database whether this person may request one more suggestion.
+ * Returns true (allowed), false (limit reached) or null (the check itself failed).
+ * The generated types.ts does not know the function yet, so the call is typed loosely.
+ */
+async function consumeQuota(client: { rpc: unknown }): Promise<boolean | null> {
+  const rpc = client.rpc as unknown as QuotaRpc;
+  const { data, error } = await rpc.call(client, "consume_ai_quota");
+  if (error) {
+    console.error("ai quota error", error.message);
+    return null;
+  }
+  return data === true;
+}
+
 export const suggestGrounding = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: { feeling: string; lang?: string }) => {
@@ -83,10 +111,14 @@ export const suggestGrounding = createServerFn({ method: "POST" })
     if (feeling.length > 2000) throw new Error(MSG[lang].long);
     return { feeling, lang };
   })
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     const msg = MSG[data.lang];
     const apiKey = process.env["LOVABLE_API_KEY"];
     if (!apiKey) return { error: msg.unavailable as string, text: null };
+
+    const allowed = await consumeQuota(context.supabase);
+    if (allowed === null) return { error: msg.empty, text: null };
+    if (!allowed) return { error: null, text: LIMIT_TEXT[data.lang] };
 
     const { createOpenAI } = await import("@ai-sdk/openai");
     const { streamText } = await import("ai");
