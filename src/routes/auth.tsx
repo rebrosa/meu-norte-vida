@@ -3,7 +3,15 @@ import { useState } from "react";
 import { LanguageSwitcher } from "@/components/app/LanguageSwitcher";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
-import { PASSWORD_NOTE } from "@/lib/translations.extra";
+import {
+  AUTH_ERR_EMAIL,
+  AUTH_ERR_GENERIC,
+  AUTH_ERR_RATE,
+  AUTH_ERR_WEAK,
+  PASSWORD_NOTE,
+  PASSWORD_OK_HINT,
+  PASSWORD_SHORT_HINT,
+} from "@/lib/translations.extra";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -16,6 +24,20 @@ export const Route = createFileRoute("/auth")({
   }),
   component: AuthPage,
 });
+
+function signUpErrorKey(error: { code?: string; status?: number }): string {
+  switch (error.code) {
+    case "weak_password":
+      return AUTH_ERR_WEAK;
+    case "email_address_invalid":
+      return AUTH_ERR_EMAIL;
+    case "over_request_rate_limit":
+    case "over_email_send_rate_limit":
+      return AUTH_ERR_RATE;
+    default:
+      return error.status === 429 ? AUTH_ERR_RATE : AUTH_ERR_GENERIC;
+  }
+}
 
 function AuthPage() {
   const { t } = useI18n();
@@ -33,7 +55,9 @@ function AuthPage() {
     if (mode === "in") {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       setLoading(false);
-      if (error) return setMsg(t("E-mail ou senha incorretos."));
+      if (error) {
+        return setMsg(t(error.status === 429 ? AUTH_ERR_RATE : "E-mail ou senha incorretos."));
+      }
       navigate({ to: "/seguranca" });
     } else {
       const { data, error } = await supabase.auth.signUp({
@@ -42,7 +66,7 @@ function AuthPage() {
         options: { emailRedirectTo: window.location.origin },
       });
       setLoading(false);
-      if (error) return setMsg(error.message);
+      if (error) return setMsg(t(signUpErrorKey(error)));
       if (data.session) navigate({ to: "/seguranca" });
       else setMsg(t("Enviamos um link de confirmação para o seu e-mail."));
     }
@@ -81,7 +105,14 @@ function AuthPage() {
           autoComplete={mode === "in" ? "current-password" : "new-password"}
         />
         {mode === "up" && (
-          <p className="text-base text-muted-foreground">{t(PASSWORD_NOTE)}</p>
+          <div className="space-y-2">
+            <p className="text-base text-muted-foreground">{t(PASSWORD_NOTE)}</p>
+            {password.length >= 6 && (
+              <p role="status" className="text-base font-semibold text-foreground">
+                {t(password.length >= 10 ? PASSWORD_OK_HINT : PASSWORD_SHORT_HINT)}
+              </p>
+            )}
+          </div>
         )}
         <button
           disabled={loading}

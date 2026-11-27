@@ -1,3 +1,5 @@
+import type { Lang } from "@/lib/i18n";
+
 /** Today's date in the user's local timezone as YYYY-MM-DD. */
 export function todayISO(now: Date = new Date()): string {
   const y = now.getFullYear();
@@ -22,11 +24,23 @@ export function daysSince(iso: string | null | undefined, now: Date = new Date()
   return Math.max(0, diff);
 }
 
-/** Formats YYYY-MM-DD as a Brazilian date, e.g. 03/11/2026. */
-export function formatDateBR(iso: string | null | undefined): string {
+/** Browser locale used to format dates for each app language. */
+export const LOCALE_BY_LANG: Record<Lang, string> = {
+  en: "en-GB",
+  "pt-BR": "pt-BR",
+  de: "de-DE",
+};
+
+/** Formats YYYY-MM-DD for the chosen language, e.g. 03/11/2026 or 03.11.2026. */
+export function formatDateLocale(iso: string | null | undefined, lang: Lang = "pt-BR"): string {
   if (!iso) return "";
   const d = parseISODate(iso.slice(0, 10));
-  return d ? d.toLocaleDateString("pt-BR") : "";
+  return d ? d.toLocaleDateString(LOCALE_BY_LANG[lang]) : "";
+}
+
+/** Formats YYYY-MM-DD as a Brazilian date, e.g. 03/11/2026. */
+export function formatDateBR(iso: string | null | undefined): string {
+  return formatDateLocale(iso, "pt-BR");
 }
 
 /** Seconds as mm:ss. */
