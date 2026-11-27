@@ -8,6 +8,9 @@ export const FEEDBACK_BODY =
 export const CONFIDENTIAL_BODY =
   "Seus registros, sua carta e suas pausas ficam guardados na sua conta e não são mostrados a outras usuárias. Só o que você enviar para a Comunidade, depois de aprovado pela moderação, pode ser lido por outras mulheres no app. Proteger sua senha é responsabilidade sua: use um aparelho de confiança, pois quem entrar na sua conta poderá ler tudo o que você escreveu. Ao terminar, saia da conta.";
 
+export const PASSWORD_NOTE =
+  "Escolha uma senha que só você conheça. Protegê-la é responsabilidade sua: quem souber sua senha poderá ler tudo o que você escrever aqui.";
+
 export const extraTranslations: Record<string, Entry> = {
   Idioma: { en: "Language", de: "Sprache" },
   "Sua opinião importa": { en: "Your opinion matters", de: "Deine Meinung zählt" },
@@ -24,5 +27,9 @@ export const extraTranslations: Record<string, Entry> = {
   [CONFIDENTIAL_BODY]: {
     en: "Your entries, letter and pauses are stored in your account and are not shown to other users. Only what you submit to the Community, once approved by moderators, can be read by other women in the app. Protecting your password is your responsibility: use a device you trust, because anyone who signs in to your account can read everything you wrote. Sign out when you are done.",
     de: "Deine Einträge, dein Brief und deine Pausen werden in deinem Konto gespeichert und anderen Nutzerinnen nicht angezeigt. Nur was du in die Gemeinschaft einreichst, kann nach der Freigabe durch die Moderation von anderen Frauen in der App gelesen werden. Der Schutz deines Passworts liegt in deiner Verantwortung: Nutze ein Gerät, dem du vertraust, denn wer sich in dein Konto einloggt, kann alles lesen, was du geschrieben hast. Melde dich ab, wenn du fertig bist.",
+  },
+  [PASSWORD_NOTE]: {
+    en: "Choose a password only you know. Protecting it is your responsibility: anyone who knows your password can read everything you write here.",
+    de: "Wähle ein Passwort, das nur du kennst. Der Schutz liegt in deiner Verantwortung: Wer dein Passwort kennt, kann alles lesen, was du hier schreibst.",
   },
 };
