@@ -161,7 +161,7 @@ export async function setRelapseOutcome(id: string, outcome: string) {
   if (error) throw error;
 }
 
-/** Deletes every row the user owns in all five tables. */
+/** Deletes every row the user owns in all five tables. Kept for reference; the app now uses deleteMyAccount. */
 export async function deleteAllMyRows() {
   const userId = await currentUserId();
   const results = await Promise.all([
@@ -174,4 +174,16 @@ export async function deleteAllMyRows() {
   const failed = results.find((r) => r.error);
   if (failed?.error) throw failed.error;
   await supabase.auth.updateUser({ data: { separation_date: null } });
+}
+
+type LooseRpc = (fn: string) => Promise<{ error: { message: string } | null }>;
+
+/**
+ * Deletes the whole account: diary, Community rows (audit stays anonymous) and the login.
+ * Runs the database function `delete_my_account`. The generated types.ts does not know it yet,
+ * so the call is typed loosely here.
+ */
+export async function deleteMyAccount() {
+  const { error } = await (supabase.rpc as unknown as LooseRpc).call(supabase, "delete_my_account");
+  if (error) throw new Error(error.message);
 }
