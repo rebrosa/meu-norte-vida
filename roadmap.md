@@ -2,6 +2,9 @@
 
 > Arquivo central de features e backlog. Mantém o conteúdo anterior e acrescenta o histórico do git e as pendências discutidas no projeto.
 
+## Prioridade alta
+- [ ] IA do Acalmar/Respirar no Cloudflare, independente do Lovable (decisão de 27/11/2026): hoje a função lê LOVABLE_API_KEY (src/lib/grounding.functions.ts), chave que só existe dentro do Lovable e é cobrada nos créditos dele. Motivo: deixar o app mais confiável e não depender de um plano pago do Lovable, que ainda não está decidido. Passos: (1) escolher o provedor (OpenAI, Gemini ou Claude); (2) trocar a chamada em grounding.functions.ts pelo provedor escolhido; (3) cadastrar a chave como Secret no Worker realitycheck, junto com SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY e SUPABASE_SERVICE_ROLE_KEY; (4) novo deploy e teste do Acalmar em janela anônima. Enquanto isso, o Lovable (meu-norte-vida.lovable.app) segue como endereço principal e o Cloudflare como alternativo, sem o Acalmar funcionando.
+
 ## Em andamento
 - [ ] Add German and English versions with a language selector, preserving original personal writing and Brazilian crisis contacts. (Parcialmente entregue: ver "Concluído" > i18n; falta revisar a cobertura de todas as telas e a preservação dos textos pessoais.)
 - [ ] Test account: sign up, confirm, save episode + letter, verify only that user sees them (blocked: external Supabase has no managed test session)
