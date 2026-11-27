@@ -19,6 +19,7 @@
 - [x] Limite de uso da IA do Respirar: 10 por hora e 30 por dia, por pessoa.
 - [x] Aviso de senha com 10+ caracteres no cadastro.
 - [x] Publicação na Cloudflare ligada ao repositório meu-norte-vida (build a cada commit na main). Endereço oficial: https://realitycheck.rebrosa.workers.dev — nome neutro e mais adequado para as três línguas (EN/PT/DE).
+- [x] README atualizado: endereço principal na Cloudflare e link do Lovable (meu-norte-vida.lovable.app) como alternativa.
 
 ## Backlog de produto
 - [ ] Comunidade “Você não está sozinha”: revisar segurança e capacidade de moderação; começar com relatos moderados e avaliar um fórum interativo depois.
@@ -56,6 +57,5 @@
 ## Infraestrutura e testes
 - [ ] Repositório oficial: meu-norte-vida. Desativar ou apagar o Worker antigo meu-norte (meu-norte.rebrosa.workers.dev) e o repositório cópia meu-norte, se não forem mais usados.
 - [ ] Supabase: em Authentication > URL Configuration, atualizar o Site URL e os Redirect URLs para https://realitycheck.rebrosa.workers.dev.
-- [ ] README: atualizar a linha "Live app", que ainda aponta para meu-norte-vida.lovable.app.
 - [ ] Testar navegação das rotas públicas (/ e /seguranca) e do fluxo logado em um navegador real, no novo endereço.
 - [ ] Cenários de teste: executar os 10 primeiros cenários do plano de MVP.
