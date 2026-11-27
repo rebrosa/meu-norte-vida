@@ -4,7 +4,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { primaryBtn, secondaryBtn } from "@/components/app/AppShell";
 import { IntensityDots } from "@/components/app/IntensityDots";
-import { formatDateBR, PAUSE_MINUTES } from "@/lib/dates";
+import { formatDateLocale, PAUSE_MINUTES } from "@/lib/dates";
+import { useI18n } from "@/lib/i18n";
 import { PauseTimer } from "@/components/app/PauseTimer";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,10 +20,10 @@ import {
 export const Route = createFileRoute("/_authenticated/voltar")({
   head: () => ({
     meta: [
-      { title: "Pausa — Reality Check" },
-      { name: "description", content: "Um momento para respirar." },
-      { property: "og:title", content: "Pausa — Reality Check" },
-      { property: "og:description", content: "Um momento para respirar." },
+      { title: "Pause — Reality Check" },
+      { name: "description", content: "A moment to breathe." },
+      { property: "og:title", content: "Pause — Reality Check" },
+      { property: "og:description", content: "A moment to breathe." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -31,18 +32,21 @@ export const Route = createFileRoute("/_authenticated/voltar")({
 });
 
 function Voltar() {
+  const { t } = useI18n();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [eventId, setEventId] = useState<string | null>(null);
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col gap-6 px-5 py-8">
       <header className="flex items-center justify-between">
-        <span className="text-sm font-semibold text-muted-foreground">Passo {step} de 3</span>
+        <span className="text-sm font-semibold text-muted-foreground">
+          {t("Passo")} {step} {t("de 3")}
+        </span>
         <Link
           to="/inicio"
           className="inline-flex min-h-12 items-center px-2 text-base text-muted-foreground underline"
         >
-          Início
+          {t("Início")}
         </Link>
       </header>
       {step === 1 && (
@@ -60,6 +64,7 @@ function Voltar() {
 }
 
 function StepBreathe({ onDone }: { onDone: (id: string | null) => void }) {
+  const { t } = useI18n();
   const [feeling, setFeeling] = useState<Feeling | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -69,7 +74,7 @@ function StepBreathe({ onDone }: { onDone: (id: string | null) => void }) {
     try {
       onDone(await createRelapseEvent(feeling));
     } catch {
-      toast.error("Não consegui salvar, mas vamos continuar.");
+      toast.error(t("Não consegui salvar, mas vamos continuar."));
       onDone(null);
     }
   }
@@ -78,17 +83,18 @@ function StepBreathe({ onDone }: { onDone: (id: string | null) => void }) {
     <section className="flex flex-1 flex-col gap-6">
       <div className="space-y-3">
         <h1 className="font-display text-4xl leading-tight text-foreground">
-          Respire. Você não precisa decidir agora.
+          {t("Respire. Você não precisa decidir agora.")}
         </h1>
         <p className="text-lg text-muted-foreground">
-          Se for confortável, respire no seu ritmo, sem forçar. Você pode manter os olhos abertos e
-          observar três objetos ao redor. Tudo bem parar.
+          {t(
+            "Se for confortável, respire no seu ritmo, sem forçar. Você pode manter os olhos abertos e observar três objetos ao redor. Tudo bem parar.",
+          )}
         </p>
       </div>
       <div className="mx-auto h-32 w-32 animate-pulse rounded-full bg-secondary" aria-hidden />
       <fieldset className="space-y-3">
         <legend className="text-lg font-semibold text-foreground">
-          O que você está sentindo agora?
+          {t("O que você está sentindo agora?")}
         </legend>
         <div className="flex flex-wrap gap-3">
           {FEELINGS.map((f) => (
@@ -99,47 +105,49 @@ function StepBreathe({ onDone }: { onDone: (id: string | null) => void }) {
               onClick={() => setFeeling(f)}
               className={`min-h-12 rounded-full px-5 text-lg capitalize ring-1 ring-border ${feeling === f ? "bg-primary text-primary-foreground" : "bg-card text-foreground"}`}
             >
-              {f}
+              {t(f)}
             </button>
           ))}
         </div>
       </fieldset>
       <button onClick={next} disabled={!feeling || saving} className={`${primaryBtn} mt-auto`}>
-        Continuar
+        {t("Continuar")}
       </button>
     </section>
   );
 }
 
 function StepRemember({ onNext }: { onNext: () => void }) {
+  const { t, lang } = useI18n();
   const letter = useQuery(letterQuery);
   const top = useQuery(topEpisodesQuery);
   const hasLetter = !!(letter.data?.why_text || letter.data?.future_goals);
 
   return (
     <section className="flex flex-1 flex-col gap-6">
-      <h1 className="font-display text-3xl text-foreground">Lembre do que você escreveu</h1>
+      <h1 className="font-display text-3xl text-foreground">{t("Lembre do que você escreveu")}</h1>
       <p className="text-base text-muted-foreground">
-        Seus registros não estão sendo julgados. Releia apenas se isso fizer bem agora; você pode
-        seguir direto para a pausa.
+        {t(
+          "Seus registros não estão sendo julgados. Releia apenas se isso fizer bem agora; você pode seguir direto para a pausa.",
+        )}
       </p>
       <Button variant="outline" className="min-h-12 whitespace-normal text-base" onClick={onNext}>
-        Prefiro ir direto para a pausa
+        {t("Prefiro ir direto para a pausa")}
       </Button>
 
       {letter.isPending ? (
-        <p className="text-muted-foreground">Carregando…</p>
+        <p className="text-muted-foreground">{t("Carregando…")}</p>
       ) : hasLetter ? (
         <article className="space-y-4 rounded-3xl bg-secondary p-6 text-secondary-foreground">
           {letter.data?.why_text && (
             <div className="space-y-1">
-              <h2 className="text-base font-semibold">Por que decidi me afastar</h2>
+              <h2 className="text-base font-semibold">{t("Por que decidi me afastar")}</h2>
               <p className="whitespace-pre-line text-lg leading-relaxed">{letter.data.why_text}</p>
             </div>
           )}
           {letter.data?.future_goals && (
             <div className="space-y-1">
-              <h2 className="text-base font-semibold">O que quero para minha vida</h2>
+              <h2 className="text-base font-semibold">{t("O que quero para minha vida")}</h2>
               <p className="whitespace-pre-line text-lg leading-relaxed">
                 {letter.data.future_goals}
               </p>
@@ -148,24 +156,26 @@ function StepRemember({ onNext }: { onNext: () => void }) {
         </article>
       ) : (
         <p className="rounded-3xl bg-secondary p-6 text-lg text-secondary-foreground">
-          Você ainda não escreveu sua carta.{" "}
+          {t("Você ainda não escreveu sua carta.")}{" "}
           <Link to="/decisao" className="font-semibold text-primary underline">
-            Escrever agora
+            {t("Escrever agora")}
           </Link>
         </p>
       )}
 
       <div className="space-y-3">
-        <h2 className="font-display text-2xl text-foreground">Momentos que você registrou</h2>
+        <h2 className="font-display text-2xl text-foreground">
+          {t("Momentos que você registrou")}
+        </h2>
         {top.isPending ? (
-          <p className="text-muted-foreground">Carregando…</p>
+          <p className="text-muted-foreground">{t("Carregando…")}</p>
         ) : top.data && top.data.length > 0 ? (
           <ul className="space-y-3">
             {top.data.map((ep) => (
               <li key={ep.id} className="space-y-2 rounded-3xl bg-card p-5 ring-1 ring-border">
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-muted-foreground">
-                    {formatDateBR(ep.occurred_on) || "Sem data"}
+                    {formatDateLocale(ep.occurred_on, lang) || t("Sem data")}
                   </span>
                   <IntensityDots value={ep.intensity} />
                 </div>
@@ -175,18 +185,19 @@ function StepRemember({ onNext }: { onNext: () => void }) {
             ))}
           </ul>
         ) : (
-          <p className="text-lg text-muted-foreground">Nenhum registro ainda.</p>
+          <p className="text-lg text-muted-foreground">{t("Nenhum registro ainda.")}</p>
         )}
       </div>
 
       <Button onClick={onNext} className={`${primaryBtn} mt-auto h-auto whitespace-normal`}>
-        Fazer uma pausa de {PAUSE_MINUTES} minutos
+        {t("Fazer uma pausa de")} {PAUSE_MINUTES} {t("minutos")}
       </Button>
     </section>
   );
 }
 
 function StepPause({ eventId }: { eventId: string | null }) {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
 
@@ -199,8 +210,8 @@ function StepPause({ eventId }: { eventId: string | null }) {
     }
     toast.success(
       outcome === "manteve_decisao"
-        ? "Você cuidou de si hoje."
-        : "Tudo bem. Você pode voltar aqui quando quiser.",
+        ? t("Você cuidou de si hoje.")
+        : t("Tudo bem. Você pode voltar aqui quando quiser."),
     );
     navigate({ to: "/inicio" });
   }
@@ -209,26 +220,27 @@ function StepPause({ eventId }: { eventId: string | null }) {
     <section className="flex flex-1 flex-col gap-6">
       <div className="space-y-2">
         <h1 className="font-display text-3xl text-foreground">
-          Dê a si mesma {PAUSE_MINUTES} minutos
+          {t("Dê a si mesma")} {PAUSE_MINUTES} {t("minutos")}
         </h1>
         <p className="text-lg text-muted-foreground">
-          Se puder, deixe mensagens e decisões para depois. Escolha um pequeno cuidado para este
-          momento. Você pode encerrar a pausa quando quiser.
+          {t(
+            "Se puder, deixe mensagens e decisões para depois. Escolha um pequeno cuidado para este momento. Você pode encerrar a pausa quando quiser.",
+          )}
         </p>
       </div>
       <PauseTimer />
       <div className="mt-auto space-y-3">
         <button disabled={saving} onClick={() => finish("manteve_decisao")} className={primaryBtn}>
-          Estou mais calma, mantenho minha decisão
+          {t("Estou mais calma, mantenho minha decisão")}
         </button>
         <button disabled={saving} onClick={() => finish("em_duvida")} className={secondaryBtn}>
-          Ainda estou em dúvida
+          {t("Ainda estou em dúvida")}
         </button>
         <Link
           to="/ajuda"
           className="flex min-h-12 items-center justify-center text-base text-muted-foreground underline"
         >
-          Preciso de ajuda
+          {t("Preciso de ajuda")}
         </Link>
       </div>
     </section>

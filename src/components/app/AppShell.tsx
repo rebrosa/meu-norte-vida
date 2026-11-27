@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { BookOpen, Feather, Home, User, Wind } from "lucide-react";
 import type { ReactNode } from "react";
+import { LanguageSwitcher } from "@/components/app/LanguageSwitcher";
+import { useI18n } from "@/lib/i18n";
 
 const TABS = [
   { to: "/inicio", label: "Início", Icon: Home },
@@ -11,11 +13,15 @@ const TABS = [
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const { t } = useI18n();
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col">
-      <main className="flex flex-1 flex-col gap-6 px-5 pb-32 pt-8">{children}</main>
+      <main className="flex flex-1 flex-col gap-6 px-5 pb-32 pt-8">
+        <LanguageSwitcher />
+        {children}
+      </main>
       <nav
-        aria-label="Navegação principal"
+        aria-label={t("Navegação principal")}
         className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur"
       >
         <ul className="mx-auto flex max-w-md justify-between px-2">
@@ -27,7 +33,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 activeProps={{ className: "text-primary", "aria-current": "page" }}
               >
                 <Icon className="h-6 w-6" aria-hidden />
-                {label}
+                {t(label)}
               </Link>
             </li>
           ))}

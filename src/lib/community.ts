@@ -3,6 +3,16 @@
 // transitions, sizes and rate limits. Never touches journal or letters.
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  ALIAS_ERR_CONTACT,
+  ALIAS_ERR_IDENTITY,
+  ERR_ALIAS_LEN,
+  ERR_BODY,
+  ERR_GENERIC,
+  ERR_SESSION,
+  ERR_THEME,
+  ERR_TITLE,
+} from "@/lib/community-text";
 
 export const RULES_VERSION = "2026-11-v1";
 export const PAGE_SIZE = 10;
@@ -16,6 +26,7 @@ export const THEMES = [
   { id: "recomecos", label: "Recomeços e pequenas conquistas" },
 ] as const;
 export type ThemeId = (typeof THEMES)[number]["id"];
+/** Portuguese label (the translation key). Wrap with t() when displaying. */
 export const themeLabel = (id: string) => THEMES.find((t) => t.id === id)?.label ?? id;
 export const isTheme = (v: unknown): v is ThemeId => THEMES.some((t) => t.id === v);
 
@@ -27,6 +38,7 @@ export const WARNINGS = [
   { id: "luto", label: "Luto" },
   { id: "dinheiro", label: "Dinheiro" },
 ] as const;
+/** Portuguese label (the translation key). Wrap with t() when displaying. */
 export const warningLabel = (id: string) => WARNINGS.find((w) => w.id === id)?.label ?? id;
 
 export const REACTIONS = [
@@ -61,16 +73,53 @@ export type StoryDraft = {
   warnings: string[];
 };
 
-/** Mirrors backend validation so the person sees problems before sending. */
-export function validateDraft(d: StoryDraft): string | null {
+/** Who the author really is; used only in the browser to stop the nickname from revealing it. */
+export type Identity = { name?: string | null; email?: string | null };
+
+const fold = (s: string) =>
+  s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+/** First letter of the name, e.g. "Rebeca" -> "R.". Empty when there is no name. */
+export function initialOf(name: string | null | undefined): string {
+  const first = (name ?? "").trim().match(/\p{L}/u)?.[0];
+  return first ? `${first.toLocaleUpperCase()}.` : "";
+}
+
+/** Returns a translation key describing the problem, or null when the nickname is acceptable. */
+export function aliasProblem(pseudonym: string, identity: Identity = {}): string | null {
+  const p = pseudonym.trim();
+  if (/@|https?:|www\./i.test(p) || /\d{4,}/.test(p.replace(/[\s.\-()]/g, "")))
+    return ALIAS_ERR_CONTACT;
+  const norm = fold(p);
+  const words = norm.split(/[^a-z0-9]+/).filter(Boolean);
+  const squashed = norm.replace(/[^a-z0-9]/g, "");
+  const tokens = new Set<string>();
+  for (const part of (identity.name ?? "").split(/\s+/)) {
+    const f = fold(part).replace(/[^a-z0-9]/g, "");
+    if (f.length >= 3) tokens.add(f);
+  }
+  const local = fold((identity.email ?? "").split("@")[0] ?? "").replace(/[^a-z0-9]/g, "");
+  if (local.length >= 3) tokens.add(local);
+  for (const tok of tokens) {
+    if (words.includes(tok) || squashed === tok || (tok.length >= 5 && squashed.includes(tok)))
+      return ALIAS_ERR_IDENTITY;
+  }
+  return null;
+}
+
+/** Mirrors backend validation so the person sees problems before sending. Returns a translation key. */
+export function validateDraft(d: StoryDraft, identity?: Identity): string | null {
   const len = (s: string) => s.trim().length;
-  if (len(d.title) < LIMITS.title[0] || len(d.title) > LIMITS.title[1])
-    return "O título precisa ter entre 3 e 120 caracteres.";
-  if (len(d.body) < LIMITS.body[0] || len(d.body) > LIMITS.body[1])
-    return "O texto precisa ter entre 50 e 8000 caracteres.";
+  if (len(d.title) < LIMITS.title[0] || len(d.title) > LIMITS.title[1]) return ERR_TITLE;
+  if (len(d.body) < LIMITS.body[0] || len(d.body) > LIMITS.body[1]) return ERR_BODY;
   if (len(d.pseudonym) < LIMITS.pseudonym[0] || len(d.pseudonym) > LIMITS.pseudonym[1])
-    return "O pseudônimo precisa ter entre 2 e 40 caracteres.";
-  if (!isTheme(d.theme)) return "Escolha um tema.";
+    return ERR_ALIAS_LEN;
+  const alias = aliasProblem(d.pseudonym, identity);
+  if (alias) return alias;
+  if (!isTheme(d.theme)) return ERR_THEME;
   return null;
 }
 
@@ -80,7 +129,7 @@ export const allConsented = (c: Consents) => c.rules && c.moderation && c.displa
 async function uid() {
   const { data } = await supabase.auth.getSession();
   const id = data.session?.user.id;
-  if (!id) throw new Error("Sua sessão expirou. Entre novamente.");
+  if (!id) throw new Error(ERR_SESSION);
   return id;
 }
 
@@ -227,7 +276,7 @@ export const reportsQuery = queryOptions({
 });
 
 function check(error: { message: string } | null) {
-  if (error) throw new Error(error.message || "Não foi possível concluir agora.");
+  if (error) throw new Error(error.message || ERR_GENERIC);
 }
 
 export async function saveStory(id: string | null, d: StoryDraft): Promise<string> {
