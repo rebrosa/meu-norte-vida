@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { AppShell, fieldClass, primaryBtn } from "@/components/app/AppShell";
 import { CommunityGate, CommunityNotice, StoryText } from "@/components/community/CommunityGate";
+import { useI18n } from "@/lib/i18n";
 import {
   accessQuery,
   myReactionsQuery,
@@ -19,10 +20,10 @@ import {
 export const Route = createFileRoute("/_authenticated/comunidade/relato/$id")({
   head: () => ({
     meta: [
-      { title: "Comunidade — Reality Check" },
-      { name: "description", content: "Espaço de leitura e partilha." },
-      { property: "og:title", content: "Comunidade — Reality Check" },
-      { property: "og:description", content: "Espaço de leitura e partilha." },
+      { title: "Community — Reality Check" },
+      { name: "description", content: "A space for reading and sharing." },
+      { property: "og:title", content: "Community — Reality Check" },
+      { property: "og:description", content: "A space for reading and sharing." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -43,6 +44,7 @@ export const Route = createFileRoute("/_authenticated/comunidade/relato/$id")({
 });
 
 function Relato() {
+  const { t } = useI18n();
   const { id } = Route.useParams();
   const qc = useQueryClient();
   const { data: s } = useSuspenseQuery(storyQuery(id));
@@ -56,16 +58,16 @@ function Relato() {
   if (!s)
     return (
       <AppShell>
-        <h1 className="font-display text-3xl text-foreground">História indisponível</h1>
+        <h1 className="font-display text-3xl text-foreground">{t("História indisponível")}</h1>
         <p className="text-lg text-muted-foreground">
-          Ela pode ter sido retirada pela autora ou pela moderação.
+          {t("Ela pode ter sido retirada pela autora ou pela moderação.")}
         </p>
         <Link
           to="/comunidade/mural"
           search={{ page: 1, tema: undefined }}
           className="text-primary underline"
         >
-          Voltar às histórias
+          {t("Voltar às histórias")}
         </Link>
       </AppShell>
     );
@@ -84,7 +86,7 @@ function Relato() {
     setBusy(true);
     try {
       await reportStory(id, reason, details);
-      toast.success("Denúncia enviada à moderação. Obrigada.");
+      toast.success(t("Denúncia enviada à moderação. Obrigada."));
       setReporting(false);
       setReason("");
       setDetails("");
@@ -102,25 +104,27 @@ function Relato() {
         search={{ page: 1, tema: undefined }}
         className="text-primary underline"
       >
-        ← Histórias
+        {t("← Histórias")}
       </Link>
-      <p className="text-sm text-muted-foreground">{themeLabel(s.theme)}</p>
+      <p className="text-sm text-muted-foreground">{t(themeLabel(s.theme))}</p>
       <h1 className="font-display text-3xl text-foreground">{s.title}</h1>
-      <p className="text-base text-muted-foreground">por {s.pseudonym}</p>
+      <p className="text-base text-muted-foreground">
+        {t("por")} {s.pseudonym}
+      </p>
       {s.content_warnings.length > 0 && showWarn ? (
         <div className="space-y-3 rounded-3xl bg-secondary p-5 text-secondary-foreground">
           <p className="text-lg">
-            Esta história fala de: {s.content_warnings.map(warningLabel).join(", ")}. Leia só se
-            sentir que é um bom momento.
+            {t("Esta história fala de:")} {s.content_warnings.map((w) => t(warningLabel(w))).join(", ")}
+            {t(". Leia só se sentir que é um bom momento.")}
           </p>
           <button onClick={() => setShowWarn(false)} className={primaryBtn}>
-            Quero ler
+            {t("Quero ler")}
           </button>
         </div>
       ) : (
         <StoryText text={s.body} />
       )}
-      <div className="flex flex-wrap gap-2" aria-label="Reações">
+      <div className="flex flex-wrap gap-2" aria-label={t("Reações")}>
         {REACTIONS.map((r) => {
           const on = mine.includes(r.id);
           return (
@@ -130,22 +134,24 @@ function Relato() {
               onClick={() => react(r.id)}
               className={`min-h-12 rounded-2xl px-4 text-base ${on ? "bg-primary text-primary-foreground" : "bg-card ring-1 ring-border text-foreground"}`}
             >
-              {r.label}
+              {t(r.label)}
             </button>
           );
         })}
       </div>
-      <p className="text-sm text-muted-foreground">Ninguém vê quem reagiu.</p>
+      <p className="text-sm text-muted-foreground">{t("Ninguém vê quem reagiu.")}</p>
       {!reporting ? (
         <button
           onClick={() => setReporting(true)}
           className="min-h-12 self-start text-base text-muted-foreground underline"
         >
-          Denunciar esta história
+          {t("Denunciar esta história")}
         </button>
       ) : (
         <form onSubmit={report} className="space-y-3 rounded-3xl bg-card p-5 ring-1 ring-border">
-          <p className="text-lg font-semibold text-foreground">Por que você está denunciando?</p>
+          <p className="text-lg font-semibold text-foreground">
+            {t("Por que você está denunciando?")}
+          </p>
           {REPORT_REASONS.map((r) => (
             <label key={r.id} className="flex min-h-12 items-center gap-3 text-lg text-foreground">
               <input
@@ -156,29 +162,30 @@ function Relato() {
                 onChange={() => setReason(r.id)}
                 className="h-5 w-5"
               />
-              {r.label}
+              {t(r.label)}
             </label>
           ))}
           <textarea
             maxLength={1000}
             value={details}
             onChange={(e) => setDetails(e.target.value)}
-            placeholder="Detalhes (opcional)"
+            placeholder={t("Detalhes (opcional)")}
+            aria-label={t("Detalhes (opcional)")}
             className={fieldClass}
             rows={3}
           />
           <p className="text-sm text-muted-foreground">
-            A autora não fica sabendo quem denunciou. A história não é removida automaticamente.
+            {t("A autora não fica sabendo quem denunciou. A história não é removida automaticamente.")}
           </p>
           <button disabled={!reason || busy} className={primaryBtn}>
-            Enviar denúncia
+            {t("Enviar denúncia")}
           </button>
           <button
             type="button"
             onClick={() => setReporting(false)}
             className="min-h-12 w-full text-primary underline"
           >
-            Cancelar
+            {t("Cancelar")}
           </button>
         </form>
       )}
