@@ -18,6 +18,7 @@
 - [x] Apagar a conta inteira (delete_my_account) com confirmação por palavra.
 - [x] Limite de uso da IA do Respirar: 10 por hora e 30 por dia, por pessoa.
 - [x] Aviso de senha com 10+ caracteres no cadastro.
+- [x] Publicação na Cloudflare ligada ao repositório meu-norte-vida (build a cada commit na main). Endereço oficial: https://realitycheck.rebrosa.workers.dev — nome neutro e mais adequado para as três línguas (EN/PT/DE).
 
 ## Backlog de produto
 - [ ] Comunidade “Você não está sozinha”: revisar segurança e capacidade de moderação; começar com relatos moderados e avaliar um fórum interativo depois.
@@ -53,6 +54,8 @@
 - [ ] Mensagem amigável quando o exercício do Respirar falhar; nunca exibir erro técnico (ex.: variáveis do Supabase ausentes) à usuária. Confirmar se o erro de variáveis SUPABASE_URL/SUPABASE_PUBLISHABLE_KEY já foi resolvido.
 
 ## Infraestrutura e testes
-- [ ] Repositório oficial: meu-norte-vida. Conectar a publicação da Cloudflare a ele (o repositório meu-norte parece ser só uma cópia importada em 18/11, com um commit) e confirmar que o endereço publicado reflete as mudanças mais recentes.
-- [ ] Testar navegação das rotas públicas (/ e /seguranca) e do fluxo logado em um navegador real.
+- [ ] Repositório oficial: meu-norte-vida. Desativar ou apagar o Worker antigo meu-norte (meu-norte.rebrosa.workers.dev) e o repositório cópia meu-norte, se não forem mais usados.
+- [ ] Supabase: em Authentication > URL Configuration, atualizar o Site URL e os Redirect URLs para https://realitycheck.rebrosa.workers.dev.
+- [ ] README: atualizar a linha "Live app", que ainda aponta para meu-norte-vida.lovable.app.
+- [ ] Testar navegação das rotas públicas (/ e /seguranca) e do fluxo logado em um navegador real, no novo endereço.
 - [ ] Cenários de teste: executar os 10 primeiros cenários do plano de MVP.
