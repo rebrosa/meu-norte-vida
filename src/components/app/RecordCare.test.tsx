@@ -7,12 +7,24 @@ import { RecordCare } from "./RecordCare";
 const QUESTION_PT = "Que pensamento apareceu e que emoção veio com ele?";
 const QUESTION_EN = "What thought came up, and what emotion came with it?";
 
+// Node recente expõe um localStorage incompleto; usamos um armazenamento simples em memória.
+function installMemoryStorage() {
+  const store = new Map<string, string>();
+  const memory = {
+    getItem: (key: string) => store.get(key) ?? null,
+    setItem: (key: string, value: string) => void store.set(key, String(value)),
+    removeItem: (key: string) => void store.delete(key),
+    clear: () => store.clear(),
+  };
+  Object.defineProperty(window, "localStorage", { configurable: true, value: memory });
+}
+
 function renderIn(lang: "pt-BR" | "en", ui: ReactElement) {
   window.localStorage.setItem("meu-norte-lang", lang);
   return render(<I18nProvider>{ui}</I18nProvider>);
 }
 
-beforeEach(() => window.localStorage.clear());
+beforeEach(installMemoryStorage);
 afterEach(cleanup);
 
 describe("Optional record reflection", () => {
