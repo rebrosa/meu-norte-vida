@@ -13,7 +13,7 @@ const BRAZIL: Group = {
 
 const EUROPE_EN: Group = {
   title: "Europe and Germany only",
-  note: "These numbers only work in Europe (112) or in Germany (110 and 116 016). They will not connect from other countries, such as Brazil.",
+  note: "These numbers only work in Europe (112) or in Germany (110 and 116 016).",
   items: [
     {
       label: "European emergency number: ambulance, fire and, in most EU countries, police",
@@ -29,7 +29,7 @@ const EUROPE_EN: Group = {
 
 const EUROPE_DE: Group = {
   title: "Nur Europa und Deutschland",
-  note: "Diese Nummern funktionieren nur in Europa (112) bzw. in Deutschland (110 und 116 016). Aus anderen Ländern, zum Beispiel Brasilien, kommst du damit nicht durch.",
+  note: "Diese Nummern funktionieren nur in Europa (112) bzw. in Deutschland (110 und 116 016).",
   items: [
     {
       label:
