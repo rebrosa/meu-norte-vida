@@ -22,7 +22,9 @@ Calm and warm. Background #FAF7F2, primary teal #2F6F73, sand #E8DCC8, single co
 
 This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://meu-norte-vida.lovable.app
+**Live app**: https://realitycheck.rebrosa.workers.dev
+
+**Alternative (Lovable)**: https://meu-norte-vida.lovable.app
 
 ## Build with Lovable
 
