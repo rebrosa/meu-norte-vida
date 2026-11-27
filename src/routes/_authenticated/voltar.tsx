@@ -164,7 +164,9 @@ function StepRemember({ onNext }: { onNext: () => void }) {
       )}
 
       <div className="space-y-3">
-        <h2 className="font-display text-2xl text-foreground">{t("Momentos que você registrou")}</h2>
+        <h2 className="font-display text-2xl text-foreground">
+          {t("Momentos que você registrou")}
+        </h2>
         {top.isPending ? (
           <p className="text-muted-foreground">{t("Carregando…")}</p>
         ) : top.data && top.data.length > 0 ? (

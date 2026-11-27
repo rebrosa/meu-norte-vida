@@ -59,7 +59,9 @@ function Meus() {
         )}
       </p>
       {data.length === 0 && (
-        <p className="text-lg text-muted-foreground">{t("Você ainda não escreveu nenhum relato.")}</p>
+        <p className="text-lg text-muted-foreground">
+          {t("Você ainda não escreveu nenhum relato.")}
+        </p>
       )}
       <ul className="space-y-4">
         {data.map((s) => (

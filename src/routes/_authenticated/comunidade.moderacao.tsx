@@ -177,9 +177,7 @@ function Moderacao() {
           />
           <button
             className={btn}
-            onClick={() =>
-              run(() => reviewReport(r.id, note(r.id)), t("Denúncia examinada."))
-            }
+            onClick={() => run(() => reviewReport(r.id, note(r.id)), t("Denúncia examinada."))}
           >
             {t("Marcar como examinada")}
           </button>

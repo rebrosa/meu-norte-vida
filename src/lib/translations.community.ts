@@ -38,7 +38,7 @@ export const communityTranslations: Record<string, Entry> = {
     en: "New beginnings and small wins",
     de: "Neuanfänge und kleine Erfolge",
   },
-  "Violência": { en: "Violence", de: "Gewalt" },
+  Violência: { en: "Violence", de: "Gewalt" },
   "Violência psicológica": { en: "Psychological abuse", de: "Psychische Gewalt" },
   Filhos: { en: "Children", de: "Kinder" },
   "Pensamentos de se machucar": { en: "Thoughts of self-harm", de: "Gedanken an Selbstverletzung" },
@@ -47,9 +47,18 @@ export const communityTranslations: Record<string, Entry> = {
   "Me identifiquei": { en: "I relate to this", de: "Ich erkenne mich wieder" },
   "Obrigada por compartilhar": { en: "Thank you for sharing", de: "Danke fürs Teilen" },
   "Sua história me ajudou": { en: "Your story helped me", de: "Deine Geschichte hat mir geholfen" },
-  "Exposição de dados pessoais": { en: "Personal data exposed", de: "Offenlegung persönlicher Daten" },
-  "Assédio ou culpabilização": { en: "Harassment or blaming", de: "Belästigung oder Schuldzuweisung" },
-  "Ameaça ou conteúdo de risco": { en: "Threat or risky content", de: "Drohung oder riskante Inhalte" },
+  "Exposição de dados pessoais": {
+    en: "Personal data exposed",
+    de: "Offenlegung persönlicher Daten",
+  },
+  "Assédio ou culpabilização": {
+    en: "Harassment or blaming",
+    de: "Belästigung oder Schuldzuweisung",
+  },
+  "Ameaça ou conteúdo de risco": {
+    en: "Threat or risky content",
+    de: "Drohung oder riskante Inhalte",
+  },
   "Publicidade ou pedido de dinheiro": {
     en: "Advertising or requests for money",
     de: "Werbung oder Geldforderung",
@@ -103,10 +112,11 @@ export const communityTranslations: Record<string, Entry> = {
     de: "Nur den Anfangsbuchstaben meines Namens verwenden",
   },
   Apelido: { en: "Nickname", de: "Spitzname" },
-  "Escolha um apelido que não revele seu nome, e-mail, cidade ou qualquer detalhe que identifique você.": {
-    en: "Choose a nickname that doesn't reveal your name, email, city or any detail that could identify you.",
-    de: "Wähle einen Spitznamen, der weder deinen Namen noch deine E-Mail-Adresse, deine Stadt oder andere identifizierende Angaben verrät.",
-  },
+  "Escolha um apelido que não revele seu nome, e-mail, cidade ou qualquer detalhe que identifique você.":
+    {
+      en: "Choose a nickname that doesn't reveal your name, email, city or any detail that could identify you.",
+      de: "Wähle einen Spitznamen, der weder deinen Namen noch deine E-Mail-Adresse, deine Stadt oder andere identifizierende Angaben verrät.",
+    },
   "Para usar a inicial, preencha seu nome na tela Conta.": {
     en: "To use your initial, add your name on the Account screen.",
     de: "Um deinen Anfangsbuchstaben zu verwenden, trage deinen Namen im Bereich Konto ein.",

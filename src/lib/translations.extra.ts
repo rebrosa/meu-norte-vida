@@ -46,7 +46,10 @@ export const extraTranslations: Record<string, Entry> = {
     en: "This password works, but one with 10 characters or more protects your journal better.",
     de: "Dieses Passwort funktioniert, aber eines mit mindestens 10 Zeichen schützt dein Tagebuch besser.",
   },
-  [PASSWORD_OK_HINT]: { en: "Great: 10 characters or more.", de: "Sehr gut: mindestens 10 Zeichen." },
+  [PASSWORD_OK_HINT]: {
+    en: "Great: 10 characters or more.",
+    de: "Sehr gut: mindestens 10 Zeichen.",
+  },
   [AUTH_ERR_WEAK]: {
     en: "That password is too weak. Use at least 6 characters; we recommend 10 or more.",
     de: "Dieses Passwort ist zu schwach. Verwende mindestens 6 Zeichen, besser 10 oder mehr.",
@@ -65,17 +68,17 @@ export const extraTranslations: Record<string, Entry> = {
   },
   saudade: { en: "longing", de: "Sehnsucht" },
   culpa: { en: "guilt", de: "Schuldgefühl" },
-  "solidão": { en: "loneliness", de: "Einsamkeit" },
+  solidão: { en: "loneliness", de: "Einsamkeit" },
   medo: { en: "fear", de: "Angst" },
-  "esperança": { en: "hope", de: "Hoffnung" },
-  "ciúme": { en: "jealousy", de: "Eifersucht" },
+  esperança: { en: "hope", de: "Hoffnung" },
+  ciúme: { en: "jealousy", de: "Eifersucht" },
   controle: { en: "control", de: "Kontrolle" },
   gritos: { en: "yelling", de: "Anschreien" },
-  "humilhação": { en: "humiliation", de: "Demütigung" },
+  humilhação: { en: "humiliation", de: "Demütigung" },
   isolamento: { en: "isolation", de: "Isolation" },
   dinheiro: { en: "money", de: "Geld" },
   mentira: { en: "lying", de: "Lügen" },
-  "ameaça": { en: "threats", de: "Drohungen" },
+  ameaça: { en: "threats", de: "Drohungen" },
   "Intensidade {value} de 5": { en: "Intensity {value} of 5", de: "Intensität {value} von 5" },
   "Tempo restante da pausa": { en: "Time left in the pause", de: "Verbleibende Zeit der Pause" },
   "Progresso da pausa": { en: "Pause progress", de: "Fortschritt der Pause" },
@@ -87,20 +90,23 @@ export const extraTranslations: Record<string, Entry> = {
     en: "Your pause is in progress. One moment at a time.",
     de: "Deine Pause läuft. Ein Moment nach dem anderen.",
   },
-  "Se for confortável, mantenha os olhos abertos e perceba o apoio dos pés. Olhe ao redor e nomeie três objetos e suas cores. Respire no seu ritmo, sem forçar. Se algo incomodar, pare.": {
-    en: "If it feels comfortable, keep your eyes open and notice the support of your feet. Look around and name three objects and their colors. Breathe at your own pace, without forcing it. If anything feels uncomfortable, stop.",
-    de: "Wenn es sich angenehm anfühlt, lass die Augen offen und spüre den Halt deiner Füße. Sieh dich um und benenne drei Gegenstände und ihre Farben. Atme in deinem eigenen Rhythmus, ohne Druck. Wenn etwas unangenehm wird, hör auf.",
-  },
-  "Tudo bem parar. Você não precisa reler o registro. Perceba onde está agora e escolha o que traz um pouco de conforto.": {
-    en: "It's okay to stop. You don't need to reread the entry. Notice where you are right now and choose what brings a little comfort.",
-    de: "Es ist in Ordnung, aufzuhören. Du musst den Eintrag nicht noch einmal lesen. Nimm wahr, wo du gerade bist, und wähle, was dir ein wenig Trost gibt.",
-  },
+  "Se for confortável, mantenha os olhos abertos e perceba o apoio dos pés. Olhe ao redor e nomeie três objetos e suas cores. Respire no seu ritmo, sem forçar. Se algo incomodar, pare.":
+    {
+      en: "If it feels comfortable, keep your eyes open and notice the support of your feet. Look around and name three objects and their colors. Breathe at your own pace, without forcing it. If anything feels uncomfortable, stop.",
+      de: "Wenn es sich angenehm anfühlt, lass die Augen offen und spüre den Halt deiner Füße. Sieh dich um und benenne drei Gegenstände und ihre Farben. Atme in deinem eigenen Rhythmus, ohne Druck. Wenn etwas unangenehm wird, hör auf.",
+    },
+  "Tudo bem parar. Você não precisa reler o registro. Perceba onde está agora e escolha o que traz um pouco de conforto.":
+    {
+      en: "It's okay to stop. You don't need to reread the entry. Notice where you are right now and choose what brings a little comfort.",
+      de: "Es ist in Ordnung, aufzuhören. Du musst den Eintrag nicht noch einmal lesen. Nimm wahr, wo du gerade bist, und wähle, was dir ein wenig Trost gibt.",
+    },
   "Retomar, se eu quiser": { en: "Resume, if I want to", de: "Fortsetzen, wenn ich möchte" },
   "Um olhar gentil · TCC": { en: "A gentle perspective · CBT", de: "Ein sanfter Blick · KVT" },
-  "Um pensamento pode surgir junto de uma emoção, sem definir quem você é. Olhar para ele com cuidado não apaga o que aconteceu nem justifica atitudes que machucaram você.": {
-    en: "A thought can arise together with an emotion without defining who you are. Looking at it with care doesn't erase what happened or justify actions that hurt you.",
-    de: "Ein Gedanke kann zusammen mit einem Gefühl auftauchen, ohne zu bestimmen, wer du bist. Ihn achtsam zu betrachten löscht nicht aus, was geschehen ist, und rechtfertigt keine Handlungen, die dich verletzt haben.",
-  },
+  "Um pensamento pode surgir junto de uma emoção, sem definir quem você é. Olhar para ele com cuidado não apaga o que aconteceu nem justifica atitudes que machucaram você.":
+    {
+      en: "A thought can arise together with an emotion without defining who you are. Looking at it with care doesn't erase what happened or justify actions that hurt you.",
+      de: "Ein Gedanke kann zusammen mit einem Gefühl auftauchen, ohne zu bestimmen, wer du bist. Ihn achtsam zu betrachten löscht nicht aus, was geschehen ist, und rechtfertigt keine Handlungen, die dich verletzt haben.",
+    },
   "Que pensamento apareceu e que emoção veio com ele?": {
     en: "What thought came up, and what emotion came with it?",
     de: "Welcher Gedanke ist aufgetaucht, und welches Gefühl kam dazu?",
@@ -113,10 +119,11 @@ export const extraTranslations: Record<string, Entry> = {
     en: "What do I need right now? What small act of care can I choose?",
     de: "Was brauche ich jetzt? Welche kleine Wohltat kann ich mir gönnen?",
   },
-  "Reflexão opcional e temporária: não é salva nem enviada à inteligência artificial. Seu registro permanece como você escreveu.": {
-    en: "Optional, temporary reflection: it is not saved or sent to artificial intelligence. Your entry stays exactly as you wrote it.",
-    de: "Freiwillige, vorübergehende Reflexion: Sie wird weder gespeichert noch an künstliche Intelligenz gesendet. Dein Eintrag bleibt so, wie du ihn geschrieben hast.",
-  },
+  "Reflexão opcional e temporária: não é salva nem enviada à inteligência artificial. Seu registro permanece como você escreveu.":
+    {
+      en: "Optional, temporary reflection: it is not saved or sent to artificial intelligence. Your entry stays exactly as you wrote it.",
+      de: "Freiwillige, vorübergehende Reflexion: Sie wird weder gespeichert noch an künstliche Intelligenz gesendet. Dein Eintrag bleibt so, wie du ihn geschrieben hast.",
+    },
   "Prefiro pausar": { en: "I'd rather pause", de: "Ich möchte lieber pausieren" },
   "Este acolhimento não faz diagnósticos e não substitui acompanhamento psicológico.": {
     en: "This support does not provide diagnoses and does not replace psychological care.",

@@ -32,7 +32,8 @@ const EUROPE_DE: Group = {
   note: "Diese Nummern funktionieren nur in Europa (112) bzw. in Deutschland (110 und 116 016). Aus anderen Ländern, zum Beispiel Brasilien, kommst du damit nicht durch.",
   items: [
     {
-      label: "Europäische Notrufnummer: Rettungsdienst, Feuerwehr und in den meisten EU-Ländern auch Polizei",
+      label:
+        "Europäische Notrufnummer: Rettungsdienst, Feuerwehr und in den meisten EU-Ländern auch Polizei",
       number: "112",
     },
     { label: "Polizei (nur Deutschland)", number: "110" },

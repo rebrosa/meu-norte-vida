@@ -40,7 +40,9 @@ export function RecordCare() {
       className="space-y-4 border-t border-border pt-4"
     >
       <div className="flex items-start justify-between gap-3">
-        <h2 className="font-display text-xl text-foreground">{t("No seu tempo, sem julgamento")}</h2>
+        <h2 className="font-display text-xl text-foreground">
+          {t("No seu tempo, sem julgamento")}
+        </h2>
         <Button
           variant="ghost"
           size="icon"

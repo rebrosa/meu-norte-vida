@@ -114,7 +114,8 @@ function Relato() {
       {s.content_warnings.length > 0 && showWarn ? (
         <div className="space-y-3 rounded-3xl bg-secondary p-5 text-secondary-foreground">
           <p className="text-lg">
-            {t("Esta história fala de:")} {s.content_warnings.map((w) => t(warningLabel(w))).join(", ")}
+            {t("Esta história fala de:")}{" "}
+            {s.content_warnings.map((w) => t(warningLabel(w))).join(", ")}
             {t(". Leia só se sentir que é um bom momento.")}
           </p>
           <button onClick={() => setShowWarn(false)} className={primaryBtn}>
@@ -175,7 +176,9 @@ function Relato() {
             rows={3}
           />
           <p className="text-sm text-muted-foreground">
-            {t("A autora não fica sabendo quem denunciou. A história não é removida automaticamente.")}
+            {t(
+              "A autora não fica sabendo quem denunciou. A história não é removida automaticamente.",
+            )}
           </p>
           <button disabled={!reason || busy} className={primaryBtn}>
             {t("Enviar denúncia")}

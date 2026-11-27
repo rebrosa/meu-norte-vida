@@ -133,9 +133,7 @@ function NovoEpisodio() {
         <fieldset className="space-y-3">
           <legend className="text-lg font-semibold text-foreground">{t("Intensidade")}</legend>
           <p className="text-base text-muted-foreground">
-            {t(
-              "Como você sentiu esse momento, não uma avaliação do que aconteceu. É opcional.",
-            )}
+            {t("Como você sentiu esse momento, não uma avaliação do que aconteceu. É opcional.")}
           </p>
           <div className="flex justify-between gap-2">
             {[1, 2, 3, 4, 5].map((n) => (
