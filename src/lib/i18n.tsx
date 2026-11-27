@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { translations } from "@/lib/translations";
+import { communityTranslations } from "@/lib/translations.community";
 import { extraTranslations } from "@/lib/translations.extra";
 
 export type Lang = "en" | "pt-BR" | "de";
@@ -41,7 +42,11 @@ function detectLang(): Lang {
 type Vars = Record<string, string | number>;
 
 export function translate(lang: Lang, key: string, vars?: Vars): string {
-  const entry = { ...translations[key], ...extraTranslations[key] };
+  const entry = {
+    ...translations[key],
+    ...extraTranslations[key],
+    ...communityTranslations[key],
+  };
   const raw = entry[lang] ?? key;
   if (!vars) return raw;
   return raw.replace(/\{(\w+)\}/g, (match, name: string) =>
